@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linear Function Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-indigo-50 via-blue-50 to-cyan-50 p-8">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="flex items-center justify-center gap-3 mb-3">
+                <svg class="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                </svg>
+                <h1 class="text-4xl font-bold text-gray-800">Linear Function Quiz</h1>
+            </div>
+            <p class="text-gray-600 text-lg">
+                Identify the slope (b₁) and y-intercept (b₀) for each line
+            </p>
+            <p class="text-sm text-gray-500 mt-2">
+                Linear equation: y = b₁x + b₀ or y = mx + b
+            </p>
+        </div>
+
+        <!-- Score Display -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <span class="text-sm font-medium text-gray-500">Score</span>
+                    <div id="score-display" class="text-3xl font-bold text-indigo-600">0 / 0</div>
+                </div>
+                <div class="text-right">
+                    <span class="text-sm font-medium text-gray-500">Success Rate</span>
+                    <div id="success-rate" class="text-3xl font-bold text-green-600">0%</div>
+                </div>
+                <button onclick="resetQuiz()" class="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                    <span class="font-medium">Reset</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Graph Display -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">
+                    Question #<span id="question-number">1</span>
+                </h2>
+                <p class="text-gray-600 mb-4">
+                    Identify the slope and y-intercept of this line:
+                </p>
+                <canvas id="graph-canvas" width="500" height="400" class="w-full border border-gray-200 rounded-lg"></canvas>
+                <div class="mt-4 space-y-2 text-sm">
+                    <div class="flex items-center gap-2">
+                        <div class="w-4 h-1 bg-indigo-600"></div>
+                        <span class="text-gray-700">Linear function: y = b₁x + b₀</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-4 h-4 bg-red-500 rounded-full"></div>
+                        <span class="text-gray-700">Y-intercept (b₀): where line crosses y-axis</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-4 h-4 bg-green-500 rounded-full"></div>
+                        <span class="text-gray-700">Slope (b₁): rise/run = Δy/Δx</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Answer Options -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">Your Answer</h2>
+                
+                <div class="space-y-6">
+                    <!-- Slope Options -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">
+                            Slope (b₁ or m)
+                        </label>
+                        <div id="slope-options" class="grid grid-cols-2 gap-3">
+                            <!-- Options will be inserted here -->
+                        </div>
+                    </div>
+
+                    <!-- Intercept Options -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">
+                            Y-Intercept (b₀)
+                        </label>
+                        <div id="intercept-options" class="grid grid-cols-2 gap-3">
+                            <!-- Options will be inserted here -->
+                        </div>
+                    </div>
+
+                    <button id="check-button" onclick="checkAnswer()" class="w-full py-3 bg-indigo-600 text-white rounded-lg font-bold text-lg hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors">
+                        Check Answer
+                    </button>
+
+                    <button id="next-button" onclick="nextQuestion()" style="display: none;" class="w-full py-3 bg-green-600 text-white rounded-lg font-bold text-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2">
+                        <span>Next Question</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                        </svg>
+                    </button>
+
+                    <div id="feedback" style="display: none;"></div>
+                </div>
+
+                <!-- Tips -->
+                <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                    <h4 class="font-semibold text-blue-900 mb-2">💡 Tips:</h4>
+                    <ul class="text-sm text-blue-800 space-y-1">
+                        <li>• <strong>Y-intercept (b₀):</strong> Where the line crosses the y-axis (when x=0)</li>
+                        <li>• <strong>Slope (b₁):</strong> Rise over run (Δy/Δx)</li>
+                        <li>• Positive slope: line goes up from left to right</li>
+                        <li>• Negative slope: line goes down from left to right</li>
+                        <li>• Steeper lines have larger absolute slope values</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formula Reference -->
+        <div class="mt-6 bg-white rounded-xl shadow-lg p-6">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Quick Reference</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div class="p-4 bg-indigo-50 rounded-lg">
+                    <p class="font-semibold text-indigo-900 mb-2">Linear Equation:</p>
+                    <p class="text-indigo-800 font-mono text-lg">y = b₁x + b₀</p>
+                    <p class="text-indigo-800 font-mono text-lg">or y = mx + b</p>
+                </div>
+                <div class="p-4 bg-purple-50 rounded-lg">
+                    <p class="font-semibold text-purple-900 mb-2">Slope Formula:</p>
+                    <p class="text-purple-800 font-mono text-lg">b₁ = (y₂ - y₁) / (x₂ - x₁)</p>
+                    <p class="text-purple-800 text-xs mt-1">Rise over run</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State variables
+        let currentQuestion = null;
+        let slopeGuess = null;
+        let interceptGuess = null;
+        let showFeedback = false;
+        let score = 0;
+        let attempts = 0;
+
+        // Generate a new question
+        function generateQuestion() {
+            const slope = parseFloat((Math.random() * 6 - 3).toFixed(1));
+            const intercept = parseFloat((Math.random() * 20 - 10).toFixed(1));
+            
+            // Generate slope options with larger differences (at least 0.5 apart)
+            const slopeOptions = [slope];
+            const usedSlopes = new Set([slope]);
+            
+            while (slopeOptions.length < 4) {
+                // Generate random option from full range
+                const option = parseFloat((Math.random() * 6 - 3).toFixed(1));
+                
+                // Check if it's far enough from all existing options
+                let farEnough = true;
+                for (let existing of usedSlopes) {
+                    if (Math.abs(option - existing) < 0.8) {
+                        farEnough = false;
+                        break;
+                    }
+                }
+                
+                if (farEnough && option >= -3 && option <= 3) {
+                    slopeOptions.push(option);
+                    usedSlopes.add(option);
+                }
+            }
+            
+            // Generate intercept options with larger differences (at least 2 apart)
+            const interceptOptions = [intercept];
+            const usedIntercepts = new Set([intercept]);
+            
+            while (interceptOptions.length < 4) {
+                // Generate random option from full range
+                const option = parseFloat((Math.random() * 20 - 10).toFixed(1));
+                
+                // Check if it's far enough from all existing options
+                let farEnough = true;
+                for (let existing of usedIntercepts) {
+                    if (Math.abs(option - existing) < 3) {
+                        farEnough = false;
+                        break;
+                    }
+                }
+                
+                if (farEnough && option >= -10 && option <= 10) {
+                    interceptOptions.push(option);
+                    usedIntercepts.add(option);
+                }
+            }
+            
+            // Shuffle options
+            slopeOptions.sort(() => Math.random() - 0.5);
+            interceptOptions.sort(() => Math.random() - 0.5);
+            
+            return {
+                slope,
+                intercept,
+                slopeOptions,
+                interceptOptions
+            };
+        }
+
+        // Draw the graph
+        function drawGraph() {
+            const canvas = document.getElementById('graph-canvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            const padding = 50;
+            const plotWidth = width - 2 * padding;
+            const plotHeight = height - 2 * padding;
+            
+            const xMin = -10, xMax = 10;
+            const yMin = -15, yMax = 15;
+            const xRange = xMax - xMin;
+            const yRange = yMax - yMin;
+            
+            const toCanvasX = (x) => padding + ((x - xMin) / xRange) * plotWidth;
+            const toCanvasY = (y) => height - padding - ((y - yMin) / yRange) * plotHeight;
+            
+            // Draw grid
+            ctx.strokeStyle = '#e5e7eb';
+            ctx.lineWidth = 1;
+            
+            for (let x = xMin; x <= xMax; x += 2) {
+                ctx.beginPath();
+                ctx.moveTo(toCanvasX(x), padding);
+                ctx.lineTo(toCanvasX(x), height - padding);
+                ctx.stroke();
+            }
+            
+            for (let y = yMin; y <= yMax; y += 5) {
+                ctx.beginPath();
+                ctx.moveTo(padding, toCanvasY(y));
+                ctx.lineTo(width - padding, toCanvasY(y));
+                ctx.stroke();
+            }
+            
+            // Draw axes
+            ctx.strokeStyle = '#374151';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(padding, toCanvasY(0));
+            ctx.lineTo(width - padding, toCanvasY(0));
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.moveTo(toCanvasX(0), padding);
+            ctx.lineTo(toCanvasX(0), height - padding);
+            ctx.stroke();
+            
+            // Axis labels
+            ctx.fillStyle = '#374151';
+            ctx.font = '14px sans-serif';
+            ctx.textAlign = 'center';
+            
+            for (let x = xMin; x <= xMax; x += 2) {
+                if (x !== 0) {
+                    ctx.fillText(x.toString(), toCanvasX(x), toCanvasY(0) + 20);
+                }
+            }
+            
+            ctx.textAlign = 'right';
+            for (let y = yMin; y <= yMax; y += 5) {
+                if (y !== 0) {
+                    ctx.fillText(y.toString(), toCanvasX(0) - 10, toCanvasY(y) + 5);
+                }
+            }
+            
+            ctx.fillText('0', toCanvasX(0) - 10, toCanvasY(0) + 20);
+            
+            ctx.font = 'bold 16px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('x', width - 20, toCanvasY(0) + 5);
+            ctx.fillText('y', toCanvasX(0) + 5, 25);
+            
+            // Draw the line
+            ctx.strokeStyle = '#4F46E5';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            
+            let firstPoint = true;
+            for (let x = xMin; x <= xMax; x += 0.1) {
+                const y = currentQuestion.slope * x + currentQuestion.intercept;
+                const canvasX = toCanvasX(x);
+                const canvasY = toCanvasY(y);
+                
+                if (firstPoint) {
+                    ctx.moveTo(canvasX, canvasY);
+                    firstPoint = false;
+                } else {
+                    ctx.lineTo(canvasX, canvasY);
+                }
+            }
+            ctx.stroke();
+            
+            // Highlight y-intercept
+            const interceptY = currentQuestion.intercept;
+            if (interceptY >= yMin && interceptY <= yMax) {
+                ctx.fillStyle = '#EF4444';
+                ctx.beginPath();
+                ctx.arc(toCanvasX(0), toCanvasY(interceptY), 6, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                ctx.font = 'bold 12px sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText('(0, b₀)', toCanvasX(0) + 10, toCanvasY(interceptY) - 10);
+            }
+            
+            // Highlight point for slope
+            const x1 = 2;
+            const y1 = currentQuestion.slope * x1 + currentQuestion.intercept;
+            if (y1 >= yMin && y1 <= yMax) {
+                ctx.fillStyle = '#10B981';
+                ctx.beginPath();
+                ctx.arc(toCanvasX(x1), toCanvasY(y1), 5, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+            
+            // Draw slope triangle
+            if (interceptY >= yMin && interceptY <= yMax && y1 >= yMin && y1 <= yMax) {
+                ctx.strokeStyle = '#059669';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                
+                ctx.beginPath();
+                ctx.moveTo(toCanvasX(0), toCanvasY(interceptY));
+                ctx.lineTo(toCanvasX(x1), toCanvasY(interceptY));
+                ctx.stroke();
+                
+                ctx.beginPath();
+                ctx.moveTo(toCanvasX(x1), toCanvasY(interceptY));
+                ctx.lineTo(toCanvasX(x1), toCanvasY(y1));
+                ctx.stroke();
+                
+                ctx.setLineDash([]);
+                
+                ctx.fillStyle = '#059669';
+                ctx.font = '12px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('Δx', toCanvasX(x1/2), toCanvasY(interceptY) + 20);
+                ctx.textAlign = 'left';
+                ctx.fillText('Δy', toCanvasX(x1) + 10, toCanvasY((interceptY + y1)/2));
+            }
+        }
+
+        // Render options
+        function renderOptions() {
+            const slopeContainer = document.getElementById('slope-options');
+            const interceptContainer = document.getElementById('intercept-options');
+            
+            slopeContainer.innerHTML = currentQuestion.slopeOptions.map(option => 
+                `<button onclick="selectSlope(${option})" id="slope-${option}" class="option-button p-4 rounded-lg border-2 border-gray-300 cursor-pointer transition-all text-center font-semibold text-lg bg-white hover:border-indigo-400 hover:bg-indigo-50">
+                    ${option}
+                </button>`
+            ).join('');
+            
+            interceptContainer.innerHTML = currentQuestion.interceptOptions.map(option => 
+                `<button onclick="selectIntercept(${option})" id="intercept-${option}" class="option-button p-4 rounded-lg border-2 border-gray-300 cursor-pointer transition-all text-center font-semibold text-lg bg-white hover:border-indigo-400 hover:bg-indigo-50">
+                    ${option}
+                </button>`
+            ).join('');
+        }
+
+        // Select slope
+        function selectSlope(value) {
+            if (showFeedback) return;
+            slopeGuess = value;
+            
+            currentQuestion.slopeOptions.forEach(opt => {
+                const btn = document.getElementById(`slope-${opt}`);
+                if (opt === value) {
+                    btn.className = 'option-button p-4 rounded-lg border-2 border-indigo-600 bg-indigo-50 cursor-pointer transition-all text-center font-semibold text-lg';
+                } else {
+                    btn.className = 'option-button p-4 rounded-lg border-2 border-gray-300 cursor-pointer transition-all text-center font-semibold text-lg bg-white hover:border-indigo-400 hover:bg-indigo-50';
+                }
+            });
+            
+            updateCheckButton();
+        }
+
+        // Select intercept
+        function selectIntercept(value) {
+            if (showFeedback) return;
+            interceptGuess = value;
+            
+            currentQuestion.interceptOptions.forEach(opt => {
+                const btn = document.getElementById(`intercept-${opt}`);
+                if (opt === value) {
+                    btn.className = 'option-button p-4 rounded-lg border-2 border-indigo-600 bg-indigo-50 cursor-pointer transition-all text-center font-semibold text-lg';
+                } else {
+                    btn.className = 'option-button p-4 rounded-lg border-2 border-gray-300 cursor-pointer transition-all text-center font-semibold text-lg bg-white hover:border-indigo-400 hover:bg-indigo-50';
+                }
+            });
+            
+            updateCheckButton();
+        }
+
+        // Update check button
+        function updateCheckButton() {
+            const btn = document.getElementById('check-button');
+            btn.disabled = (slopeGuess === null || interceptGuess === null);
+        }
+
+        // Check answer
+        function checkAnswer() {
+            showFeedback = true;
+            attempts++;
+            
+            const slopeCorrect = slopeGuess === currentQuestion.slope;
+            const interceptCorrect = interceptGuess === currentQuestion.intercept;
+            
+            if (slopeCorrect && interceptCorrect) {
+                score++;
+            }
+            
+            // Update option styles
+            currentQuestion.slopeOptions.forEach(opt => {
+                const btn = document.getElementById(`slope-${opt}`);
+                if (opt === currentQuestion.slope) {
+                    btn.className = 'option-button p-4 rounded-lg border-2 border-green-500 bg-green-50 text-green-800 transition-all text-center font-semibold text-lg';
+                    btn.innerHTML = `${opt} <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>`;
+                } else if (opt === slopeGuess) {
+                    btn.className = 'option-button p-4 rounded-lg border-2 border-red-500 bg-red-50 text-red-800 transition-all text-center font-semibold text-lg';
+                    btn.innerHTML = `${opt} <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>`;
+                } else {
+                    btn.className = 'option-button p-4 rounded-lg border-2 border-gray-300 bg-gray-50 text-gray-400 cursor-not-allowed transition-all text-center font-semibold text-lg';
+                }
+                btn.disabled = true;
+            });
+            
+            currentQuestion.interceptOptions.forEach(opt => {
+                const btn = document.getElementById(`intercept-${opt}`);
+                if (opt === currentQuestion.intercept) {
+                    btn.className = 'option-button p-4 rounded-lg border-2 border-green-500 bg-green-50 text-green-800 transition-all text-center font-semibold text-lg';
+                    btn.innerHTML = `${opt} <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>`;
+                } else if (opt === interceptGuess) {
+                    btn.className = 'option-button p-4 rounded-lg border-2 border-red-500 bg-red-50 text-red-800 transition-all text-center font-semibold text-lg';
+                    btn.innerHTML = `${opt} <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>`;
+                } else {
+                    btn.className = 'option-button p-4 rounded-lg border-2 border-gray-300 bg-gray-50 text-gray-400 cursor-not-allowed transition-all text-center font-semibold text-lg';
+                }
+                btn.disabled = true;
+            });
+            
+            // Show feedback
+            const feedbackDiv = document.getElementById('feedback');
+            const allCorrect = slopeCorrect && interceptCorrect;
+            
+            feedbackDiv.className = `p-4 rounded-lg ${allCorrect ? 'bg-green-50 border-2 border-green-300' : 'bg-yellow-50 border-2 border-yellow-300'}`;
+            feedbackDiv.innerHTML = `
+                <div class="flex items-center gap-3 mb-2">
+                    <svg class="w-6 h-6 ${allCorrect ? 'text-green-600' : 'text-yellow-600'}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        ${allCorrect 
+                            ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>' 
+                            : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>'}
+                    </svg>
+                    <h3 class="font-bold ${allCorrect ? 'text-green-800' : 'text-yellow-800'}">
+                        ${allCorrect ? 'Perfect! 🎉' : 'Not quite right'}
+                    </h3>
+                </div>
+                <p class="text-sm ${allCorrect ? 'text-green-700' : 'text-yellow-700'}">
+                    ${allCorrect 
+                        ? 'You correctly identified both the slope and y-intercept!' 
+                        : `The correct equation is: y = ${currentQuestion.slope}x + ${currentQuestion.intercept}`}
+                </p>
+            `;
+            feedbackDiv.style.display = 'block';
+            
+            // Update UI
+            document.getElementById('check-button').style.display = 'none';
+            document.getElementById('next-button').style.display = 'flex';
+            updateScore();
+        }
+
+        // Next question
+        function nextQuestion() {
+            currentQuestion = generateQuestion();
+            slopeGuess = null;
+            interceptGuess = null;
+            showFeedback = false;
+            
+            document.getElementById('check-button').style.display = 'block';
+            document.getElementById('next-button').style.display = 'none';
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('question-number').textContent = attempts + 1;
+            
+            drawGraph();
+            renderOptions();
+            updateCheckButton();
+        }
+
+        // Reset quiz
+        function resetQuiz() {
+            score = 0;
+            attempts = 0;
+            nextQuestion();
+            updateScore();
+        }
+
+        // Update score display
+        function updateScore() {
+            document.getElementById('score-display').textContent = `${score} / ${attempts}`;
+            const successRate = attempts > 0 ? Math.round((score / attempts) * 100) : 0;
+            document.getElementById('success-rate').textContent = `${successRate}%`;
+        }
+
+        // Initialize
+        currentQuestion = generateQuestion();
+        drawGraph();
+        renderOptions();
+        updateCheckButton();
+    </script>
+</body>
+</html>
