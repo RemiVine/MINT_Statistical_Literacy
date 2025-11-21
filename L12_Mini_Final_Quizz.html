@@ -50,6 +50,72 @@
 
         <!-- Questions Container -->
         <div id="questions-container" class="space-y-6">
+             <!-- Question 1 -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-start gap-3 mb-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                A researcher collects the following variables. Which one is ORDINAL?
+                            </h3>
+                            <span class="px-2 py-1 bg-indigo-100 text-indigo-800 text-xs font-semibold rounded">1 pt</span>
+                        </div>
+            
+                        <!-- Added table -->
+                        <div class="overflow-x-auto mb-4">
+                            <table class="min-w-full border border-gray-300 text-sm text-left">
+                                <thead class="bg-gray-100">
+                                    <tr>
+                                        <th class="border px-3 py-2 font-semibold text-gray-700">Variable</th>
+                                        <th class="border px-3 py-2 font-semibold text-gray-700">Modalities</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="border px-3 py-2">Household income</td>
+                                        <td class="border px-3 py-2">Continuous numeric ($ values)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border px-3 py-2">Education level</td>
+                                        <td class="border px-3 py-2">None → Primary → Secondary → Tertiary</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border px-3 py-2">Employment status</td>
+                                        <td class="border px-3 py-2">Employed / Unemployed</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border px-3 py-2">Number of children</td>
+                                        <td class="border px-3 py-2">0, 1, 2, 3, … (count)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+            
+                        <div class="space-y-2 ml-2">
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q1" value="a" class="mt-0.5" onchange="saveAnswer(1, 'a', 'single')">
+                                <span class="text-gray-800">Household income</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q1" value="b" class="mt-0.5" onchange="saveAnswer(1, 'b', 'single')">
+                                <span class="text-gray-800">Education level</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q1" value="c" class="mt-0.5" onchange="saveAnswer(1, 'c', 'single')">
+                                <span class="text-gray-800">Employment status</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q1" value="d" class="mt-0.5" onchange="saveAnswer(1, 'd', 'single')">
+                                <span class="text-gray-800">Number of children</span>
+                            </label>
+                        </div>
+            
+                        <div id="feedback-1" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Question 1 -->
             <div class="bg-white rounded-xl shadow-lg p-6">
                 <div class="flex items-start gap-3 mb-4">
