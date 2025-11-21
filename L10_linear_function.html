@@ -147,7 +147,102 @@
     </div>
 
     <script>
+        // Fixed list of questions with predetermined options
+        const questionBank = [
+            {
+                slope: 2.0,
+                intercept: 3.0,
+                slopeOptions: [-1.5, 0.5, 2.0, 2.8],
+                interceptOptions: [-4.0, 0.0, 3.0, 7.5]
+            },
+            {
+                slope: -1.5,
+                intercept: 5.0,
+                slopeOptions: [-2.5, -1.5, 0.8, 2.0],
+                interceptOptions: [-3.0, 1.0, 5.0, 8.0]
+            },
+            {
+                slope: 0.5,
+                intercept: -2.5,
+                slopeOptions: [-1.8, 0.5, 1.5, 2.5],
+                interceptOptions: [-7.0, -2.5, 2.0, 6.0]
+            },
+            {
+                slope: -2.5,
+                intercept: 7.0,
+                slopeOptions: [-2.5, -0.8, 1.2, 2.8],
+                interceptOptions: [-5.0, 1.5, 7.0, 10.0]
+            },
+            {
+                slope: 1.8,
+                intercept: -4.5,
+                slopeOptions: [-2.0, -0.5, 1.8, 2.5],
+                interceptOptions: [-8.5, -4.5, 0.5, 5.0]
+            },
+            {
+                slope: -0.8,
+                intercept: 2.0,
+                slopeOptions: [-2.5, -0.8, 1.5, 2.8],
+                interceptOptions: [-6.0, -1.0, 2.0, 7.0]
+            },
+            {
+                slope: 2.5,
+                intercept: -6.0,
+                slopeOptions: [-1.5, 0.8, 2.5, 2.9],
+                interceptOptions: [-9.0, -6.0, -1.0, 4.0]
+            },
+            {
+                slope: -1.2,
+                intercept: 8.5,
+                slopeOptions: [-2.8, -1.2, 0.5, 2.2],
+                interceptOptions: [-2.0, 3.0, 8.5, 10.0]
+            },
+            {
+                slope: 1.0,
+                intercept: 0.0,
+                slopeOptions: [-2.0, -0.5, 1.0, 2.5],
+                interceptOptions: [-6.0, -2.5, 0.0, 5.5]
+            },
+            {
+                slope: -2.8,
+                intercept: -3.5,
+                slopeOptions: [-2.8, -0.5, 1.5, 2.5],
+                interceptOptions: [-8.0, -3.5, 2.0, 6.5]
+            },
+            {
+                slope: 0.8,
+                intercept: 6.5,
+                slopeOptions: [-2.5, -0.8, 0.8, 2.8],
+                interceptOptions: [-4.0, 1.0, 6.5, 9.5]
+            },
+            {
+                slope: 2.2,
+                intercept: -7.5,
+                slopeOptions: [-1.8, 0.2, 2.2, 2.9],
+                interceptOptions: [-10.0, -7.5, -2.0, 3.5]
+            },
+            {
+                slope: -1.8,
+                intercept: 4.5,
+                slopeOptions: [-2.5, -1.8, 0.5, 2.5],
+                interceptOptions: [-5.5, 0.0, 4.5, 8.5]
+            },
+            {
+                slope: 1.5,
+                intercept: -1.0,
+                slopeOptions: [-2.2, -0.5, 1.5, 2.8],
+                interceptOptions: [-7.5, -1.0, 3.5, 7.0]
+            },
+            {
+                slope: -0.5,
+                intercept: 9.0,
+                slopeOptions: [-2.5, -0.5, 1.8, 2.5],
+                interceptOptions: [-1.0, 3.5, 9.0, 10.0]
+            }
+        ];
+        
         // State variables
+        let currentQuestionIndex = 0;
         let currentQuestion = null;
         let slopeGuess = null;
         let interceptGuess = null;
@@ -155,67 +250,10 @@
         let score = 0;
         let attempts = 0;
 
-        // Generate a new question
-        function generateQuestion() {
-            const slope = parseFloat((Math.random() * 6 - 3).toFixed(1));
-            const intercept = parseFloat((Math.random() * 20 - 10).toFixed(1));
-            
-            // Generate slope options with larger differences (at least 0.5 apart)
-            const slopeOptions = [slope];
-            const usedSlopes = new Set([slope]);
-            
-            while (slopeOptions.length < 4) {
-                // Generate random option from full range
-                const option = parseFloat((Math.random() * 6 - 3).toFixed(1));
-                
-                // Check if it's far enough from all existing options
-                let farEnough = true;
-                for (let existing of usedSlopes) {
-                    if (Math.abs(option - existing) < 0.8) {
-                        farEnough = false;
-                        break;
-                    }
-                }
-                
-                if (farEnough && option >= -3 && option <= 3) {
-                    slopeOptions.push(option);
-                    usedSlopes.add(option);
-                }
-            }
-            
-            // Generate intercept options with larger differences (at least 2 apart)
-            const interceptOptions = [intercept];
-            const usedIntercepts = new Set([intercept]);
-            
-            while (interceptOptions.length < 4) {
-                // Generate random option from full range
-                const option = parseFloat((Math.random() * 20 - 10).toFixed(1));
-                
-                // Check if it's far enough from all existing options
-                let farEnough = true;
-                for (let existing of usedIntercepts) {
-                    if (Math.abs(option - existing) < 3) {
-                        farEnough = false;
-                        break;
-                    }
-                }
-                
-                if (farEnough && option >= -10 && option <= 10) {
-                    interceptOptions.push(option);
-                    usedIntercepts.add(option);
-                }
-            }
-            
-            // Shuffle options
-            slopeOptions.sort(() => Math.random() - 0.5);
-            interceptOptions.sort(() => Math.random() - 0.5);
-            
-            return {
-                slope,
-                intercept,
-                slopeOptions,
-                interceptOptions
-            };
+        // Load a specific question
+        function loadQuestion(index) {
+            currentQuestionIndex = index;
+            currentQuestion = questionBank[index];
         }
 
         // Draw the graph
@@ -496,7 +534,10 @@
 
         // Next question
         function nextQuestion() {
-            currentQuestion = generateQuestion();
+            // Move to next question in bank
+            currentQuestionIndex = (currentQuestionIndex + 1) % questionBank.length;
+            loadQuestion(currentQuestionIndex);
+            
             slopeGuess = null;
             interceptGuess = null;
             showFeedback = false;
@@ -515,7 +556,21 @@
         function resetQuiz() {
             score = 0;
             attempts = 0;
-            nextQuestion();
+            currentQuestionIndex = 0;
+            loadQuestion(0);
+            
+            slopeGuess = null;
+            interceptGuess = null;
+            showFeedback = false;
+            
+            document.getElementById('check-button').style.display = 'block';
+            document.getElementById('next-button').style.display = 'none';
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('question-number').textContent = 1;
+            
+            drawGraph();
+            renderOptions();
+            updateCheckButton();
             updateScore();
         }
 
@@ -527,7 +582,7 @@
         }
 
         // Initialize
-        currentQuestion = generateQuestion();
+        loadQuestion(0);
         drawGraph();
         renderOptions();
         updateCheckButton();
