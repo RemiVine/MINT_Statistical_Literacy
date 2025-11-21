@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics Mini Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        /* Custom checkbox and radio styling */
+        input[type="radio"],
+        input[type="checkbox"] {
+            width: 1.25rem;
+            height: 1.25rem;
+            cursor: pointer;
+        }
+        input[type="radio"]:disabled,
+        input[type="checkbox"]:disabled {
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 p-8">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="flex items-center justify-center gap-3 mb-3">
+                <svg class="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                </svg>
+                <h1 class="text-4xl font-bold text-gray-800">Statistics Mini Test</h1>
+            </div>
+            <p class="text-gray-600 text-lg">5 questions covering key statistical concepts</p>
+            <p class="text-sm text-gray-500 mt-2">Total Points: 7</p>
+        </div>
+
+        <!-- Score Display (hidden initially) -->
+        <div id="score-section" class="bg-white rounded-xl shadow-lg p-6 mb-6 border-2 border-indigo-200" style="display: none;">
+            <div class="text-center">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Your Score</h2>
+                <div id="score-display" class="text-5xl font-bold text-indigo-600 mb-2">0 / 7</div>
+                <div id="percentage-display" class="text-xl text-gray-600 mb-4">0%</div>
+                <button onclick="resetTest()" class="px-6 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors">
+                    Try Again
+                </button>
+            </div>
+        </div>
+
+        <!-- Questions Container -->
+        <div id="questions-container" class="space-y-6">
+            <!-- Question 1 -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-start gap-3 mb-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                A researcher collects data on household income (in dollars), education level (none, primary, secondary, tertiary), employment status (employed/unemployed), and number of children. Which variable is ORDINAL?
+                            </h3>
+                            <span class="px-2 py-1 bg-indigo-100 text-indigo-800 text-xs font-semibold rounded">1 pt</span>
+                        </div>
+                        
+                        <div class="space-y-2 ml-2">
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q1" value="a" class="mt-0.5" onchange="saveAnswer(1, 'a', 'single')">
+                                <span class="text-gray-800">Household income</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q1" value="b" class="mt-0.5" onchange="saveAnswer(1, 'b', 'single')">
+                                <span class="text-gray-800">Education level</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q1" value="c" class="mt-0.5" onchange="saveAnswer(1, 'c', 'single')">
+                                <span class="text-gray-800">Employment status</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q1" value="d" class="mt-0.5" onchange="saveAnswer(1, 'd', 'single')">
+                                <span class="text-gray-800">Number of children</span>
+                            </label>
+                        </div>
+
+                        <div id="feedback-1" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-start gap-3 mb-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                In a development study, 60% of households have access to clean water, and 40% have access to electricity. If these events are independent, what is the probability that a randomly selected household has BOTH clean water AND electricity?
+                            </h3>
+                            <span class="px-2 py-1 bg-indigo-100 text-indigo-800 text-xs font-semibold rounded">1 pt</span>
+                        </div>
+                        
+                        <div class="space-y-2 ml-2">
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q2" value="a" class="mt-0.5" onchange="saveAnswer(2, 'a', 'single')">
+                                <span class="text-gray-800">0.20</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q2" value="b" class="mt-0.5" onchange="saveAnswer(2, 'b', 'single')">
+                                <span class="text-gray-800">0.24</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q2" value="c" class="mt-0.5" onchange="saveAnswer(2, 'c', 'single')">
+                                <span class="text-gray-800">0.40</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q2" value="d" class="mt-0.5" onchange="saveAnswer(2, 'd', 'single')">
+                                <span class="text-gray-800">1.00</span>
+                            </label>
+                        </div>
+
+                        <div id="feedback-2" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 - Multiple Choice -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-start gap-3 mb-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold">3</div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                A researcher constructs a 95% confidence interval for the mean household expenditure and obtains [$450, $620]. Which of the following statements are CORRECT? (Select ALL that apply)
+                            </h3>
+                            <span class="px-2 py-1 bg-indigo-100 text-indigo-800 text-xs font-semibold rounded">3 pts</span>
+                        </div>
+                        
+                        <div class="flex items-center gap-2 text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-2 mb-3">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                            <span>Select all correct answers. +1 point each correct, -1 point each incorrect (minimum 0)</span>
+                        </div>
+                        
+                        <div class="space-y-2 ml-2">
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="checkbox" name="q3" value="a" class="mt-0.5" onchange="saveAnswer(3, 'a', 'multiple')">
+                                <span class="text-gray-800">We are 95% confident that the true population mean lies between $450 and $620</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="checkbox" name="q3" value="b" class="mt-0.5" onchange="saveAnswer(3, 'b', 'multiple')">
+                                <span class="text-gray-800">There is a 95% probability that the true mean is between $450 and $620</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="checkbox" name="q3" value="c" class="mt-0.5" onchange="saveAnswer(3, 'c', 'multiple')">
+                                <span class="text-gray-800">If we repeated this study 100 times, approximately 95 of the confidence intervals would contain the true population mean</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="checkbox" name="q3" value="d" class="mt-0.5" onchange="saveAnswer(3, 'd', 'multiple')">
+                                <span class="text-gray-800">95% of all household expenditures fall between $450 and $620</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="checkbox" name="q3" value="e" class="mt-0.5" onchange="saveAnswer(3, 'e', 'multiple')">
+                                <span class="text-gray-800">The sample mean is $535</span>
+                            </label>
+                        </div>
+
+                        <div id="feedback-3" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-start gap-3 mb-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold">4</div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                A population has mean μ = 100 and standard deviation σ = 20. If we take samples of size n = 64, what is the standard error of the sampling distribution of the sample mean?
+                            </h3>
+                            <span class="px-2 py-1 bg-indigo-100 text-indigo-800 text-xs font-semibold rounded">1 pt</span>
+                        </div>
+                        
+                        <div class="space-y-2 ml-2">
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q4" value="a" class="mt-0.5" onchange="saveAnswer(4, 'a', 'single')">
+                                <span class="text-gray-800">20</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q4" value="b" class="mt-0.5" onchange="saveAnswer(4, 'b', 'single')">
+                                <span class="text-gray-800">8</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q4" value="c" class="mt-0.5" onchange="saveAnswer(4, 'c', 'single')">
+                                <span class="text-gray-800">2.5</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q4" value="d" class="mt-0.5" onchange="saveAnswer(4, 'd', 'single')">
+                                <span class="text-gray-800">0.3125</span>
+                            </label>
+                        </div>
+
+                        <div id="feedback-4" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-start gap-3 mb-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold">5</div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                In a multiple regression model predicting crop yield, you have the following variables: rainfall (mm), temperature (°C), fertilizer amount (kg), and a new variable 'rainfall in meters' (= rainfall/1000). What problem does this create?
+                            </h3>
+                            <span class="px-2 py-1 bg-indigo-100 text-indigo-800 text-xs font-semibold rounded">1 pt</span>
+                        </div>
+                        
+                        <div class="space-y-2 ml-2">
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q5" value="a" class="mt-0.5" onchange="saveAnswer(5, 'a', 'single')">
+                                <span class="text-gray-800">Heteroskedasticity</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q5" value="b" class="mt-0.5" onchange="saveAnswer(5, 'b', 'single')">
+                                <span class="text-gray-800">Perfect multicollinearity</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q5" value="c" class="mt-0.5" onchange="saveAnswer(5, 'c', 'single')">
+                                <span class="text-gray-800">Non-normality of residuals</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q5" value="d" class="mt-0.5" onchange="saveAnswer(5, 'd', 'single')">
+                                <span class="text-gray-800">Endogeneity</span>
+                            </label>
+                        </div>
+
+                        <div id="feedback-5" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div id="submit-section" class="mt-8 text-center">
+            <button onclick="submitTest()" class="px-8 py-3 bg-indigo-600 text-white rounded-lg font-bold text-lg hover:bg-indigo-700 transition-colors">
+                Submit Test
+            </button>
+            <p class="text-sm text-gray-500 mt-2">
+                You can submit even if you haven't answered all questions
+            </p>
+        </div>
+
+        <!-- Instructions -->
+        <div class="mt-8 bg-white rounded-xl shadow-lg p-6">
+            <h3 class="text-lg font-bold text-gray-800 mb-3">Instructions</h3>
+            <ul class="text-sm text-gray-700 space-y-2">
+                <li>• <strong>Questions 1, 2, 4, and 5:</strong> Single choice with circular buttons (1 point each)</li>
+                <li>• <strong>Question 3:</strong> Multiple choice with square buttons (3 points total)
+                    <ul class="ml-6 mt-1 space-y-1">
+                        <li>- Select all correct answers</li>
+                        <li>- +1 point for each correct selection</li>
+                        <li>- -1 point for each incorrect selection</li>
+                        <li>- Minimum score for this question is 0</li>
+                    </ul>
+                </li>
+                <li>• All questions must be answered before submitting</li>
+                <li>• After submission, you'll see your score and explanations</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Store answers
+        const answers = {};
+        
+        // Correct answers
+        const correctAnswers = {
+            1: { correct: 'b', type: 'single', points: 1, explanation: 'Education level is ordinal because it has a natural order (none < primary < secondary < tertiary) but the distances between categories are not equal or measurable.' },
+            2: { correct: 'b', type: 'single', points: 1, explanation: 'For independent events, P(A and B) = P(A) × P(B) = 0.60 × 0.40 = 0.24' },
+            3: { correct: ['a', 'c', 'e'], type: 'multiple', points: 3, explanation: 'Statement A is correct (proper interpretation of CI). Statement B is incorrect (the parameter is fixed, not random). Statement C is correct (frequentist interpretation). Statement D is incorrect (CI is about the mean, not individual values). Statement E is correct (sample mean = (450+620)/2 = 535).' },
+            4: { correct: 'c', type: 'single', points: 1, explanation: 'Standard error = σ/√n = 20/√64 = 20/8 = 2.5' },
+            5: { correct: 'b', type: 'single', points: 1, explanation: 'Perfect multicollinearity occurs when one independent variable is an exact linear function of another. Here, rainfall in meters = rainfall in mm / 1000, creating perfect multicollinearity.' }
+        };
+
+        function saveAnswer(questionId, value, type) {
+            if (type === 'single') {
+                answers[questionId] = value;
+            } else {
+                if (!answers[questionId]) {
+                    answers[questionId] = [];
+                }
+                const index = answers[questionId].indexOf(value);
+                if (index > -1) {
+                    answers[questionId].splice(index, 1);
+                } else {
+                    answers[questionId].push(value);
+                }
+            }
+        }
+
+        function calculateScore() {
+            let totalScore = 0;
+
+            for (let qId in correctAnswers) {
+                const q = correctAnswers[qId];
+                
+                if (q.type === 'single') {
+                    if (answers[qId] === q.correct) {
+                        totalScore += q.points;
+                    }
+                } else if (q.type === 'multiple') {
+                    const selected = answers[qId] || [];
+                    let questionScore = 0;
+                    
+                    selected.forEach(ans => {
+                        if (q.correct.includes(ans)) {
+                            questionScore += 1;
+                        } else {
+                            questionScore -= 1;
+                        }
+                    });
+                    
+                    questionScore = Math.max(0, questionScore);
+                    totalScore += questionScore;
+                }
+            }
+
+            return totalScore;
+        }
+
+        function getQuestionScore(qId) {
+            const q = correctAnswers[qId];
+            
+            if (q.type === 'single') {
+                return answers[qId] === q.correct ? q.points : 0;
+            } else if (q.type === 'multiple') {
+                const selected = answers[qId] || [];
+                let questionScore = 0;
+                
+                selected.forEach(ans => {
+                    if (q.correct.includes(ans)) {
+                        questionScore += 1;
+                    } else {
+                        questionScore -= 1;
+                    }
+                });
+                
+                return Math.max(0, questionScore);
+            }
+        }
+
+        function submitTest() {
+            const score = calculateScore();
+            const totalPoints = 7;
+            const percentage = Math.round((score / totalPoints) * 100);
+
+            // Show score section
+            document.getElementById('score-section').style.display = 'block';
+            document.getElementById('score-display').textContent = `${score} / ${totalPoints}`;
+            document.getElementById('percentage-display').textContent = `${percentage}%`;
+
+            // Hide submit button
+            document.getElementById('submit-section').style.display = 'none';
+
+            // Disable all inputs
+            const inputs = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+            inputs.forEach(input => input.disabled = true);
+
+            // Show feedback for each question
+            for (let qId in correctAnswers) {
+                showFeedback(qId);
+            }
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showFeedback(qId) {
+            const q = correctAnswers[qId];
+            const feedbackDiv = document.getElementById(`feedback-${qId}`);
+            const questionScore = getQuestionScore(qId);
+
+            let feedbackHTML = `
+                <div class="mt-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-sm font-semibold text-gray-700">Score for this question:</span>
+                        <span class="text-lg font-bold text-indigo-600">${questionScore} / ${q.points}</span>
+                    </div>
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-3 rounded">
+                        <p class="text-sm text-blue-900">
+                            <strong>Explanation:</strong> ${q.explanation}
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            feedbackDiv.innerHTML = feedbackHTML;
+            feedbackDiv.style.display = 'block';
+
+            // Mark correct/incorrect options
+            if (q.type === 'single') {
+                const inputs = document.querySelectorAll(`input[name="q${qId}"]`);
+                inputs.forEach(input => {
+                    const label = input.parentElement;
+                    const span = label.querySelector('span');
+                    
+                    if (input.value === q.correct) {
+                        span.className = 'text-green-800 font-semibold';
+                        span.innerHTML += ' <span class="text-green-600">✓</span>';
+                    } else if (input.checked) {
+                        span.className = 'text-red-800 font-semibold';
+                        span.innerHTML += ' <span class="text-red-600">✗</span>';
+                    }
+                });
+            } else {
+                const inputs = document.querySelectorAll(`input[name="q${qId}"]`);
+                inputs.forEach(input => {
+                    const label = input.parentElement;
+                    const span = label.querySelector('span');
+                    
+                    if (q.correct.includes(input.value)) {
+                        span.className = 'text-green-800 font-semibold';
+                        span.innerHTML += ' <span class="text-green-600">✓</span>';
+                    } else if (input.checked) {
+                        span.className = 'text-red-800 font-semibold';
+                        span.innerHTML += ' <span class="text-red-600">✗</span>';
+                    }
+                });
+            }
+        }
+
+        function resetTest() {
+            // Clear answers
+            for (let key in answers) {
+                delete answers[key];
+            }
+
+            // Reset all inputs
+            const inputs = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+            inputs.forEach(input => {
+                input.checked = false;
+                input.disabled = false;
+            });
+
+            // Hide score section
+            document.getElementById('score-section').style.display = 'none';
+
+            // Show submit button
+            document.getElementById('submit-section').style.display = 'block';
+
+            // Hide all feedback
+            for (let qId in correctAnswers) {
+                const feedbackDiv = document.getElementById(`feedback-${qId}`);
+                feedbackDiv.style.display = 'none';
+                feedbackDiv.innerHTML = '';
+            }
+
+            // Reset option text styling
+            const allSpans = document.querySelectorAll('label span');
+            allSpans.forEach(span => {
+                span.className = 'text-gray-800';
+                // Remove checkmarks/crosses
+                const text = span.textContent.replace(' ✓', '').replace(' ✗', '');
+                span.textContent = text;
+            });
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
