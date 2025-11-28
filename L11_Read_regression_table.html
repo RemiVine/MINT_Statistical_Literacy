@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regression Analysis Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px 12px;
+        }
+        .sig-note {
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 p-8">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Regression Analysis Quiz</h1>
+            <p class="text-gray-600 text-lg">Interpret the regression results on homicide rates</p>
+            <p class="text-sm text-gray-500 mt-2">Total Points: 5</p>
+        </div>
+
+        <!-- Regression Table -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Regression Results</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full border-2 border-gray-300">
+                    <thead>
+                        <tr class="bg-gray-100 border-b-2 border-gray-300">
+                            <th colspan="2" class="text-center py-3 font-bold">Explained variable: Share of deaths by homicide (percent)</th>
+                        </tr>
+                        <tr class="border-b border-gray-300">
+                            <th class="bg-gray-50"></th>
+                            <th class="bg-gray-50 text-center">(1)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-gray-200">
+                            <td class="font-semibold">Corruption index</td>
+                            <td class="text-center">-0.0161<sup>***</sup><br><span class="text-sm text-gray-600">(0.0049)</span></td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <td class="font-semibold">Gini coefficient</td>
+                            <td class="text-center">4.6777<sup>***</sup><br><span class="text-sm text-gray-600">(1.3346)</span></td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <td class="font-semibold">Asia</td>
+                            <td class="text-center">0.0895<br><span class="text-sm text-gray-600">(0.2271)</span></td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <td class="font-semibold">Europe</td>
+                            <td class="text-center">0.2061<br><span class="text-sm text-gray-600">(0.2758)</span></td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <td class="font-semibold">North America</td>
+                            <td class="text-center">2.3088<sup>***</sup><br><span class="text-sm text-gray-600">(0.2891)</span></td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <td class="font-semibold">Oceania</td>
+                            <td class="text-center">0.1253<br><span class="text-sm text-gray-600">(0.4996)</span></td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <td class="font-semibold">South America</td>
+                            <td class="text-center">1.7068<sup>***</sup><br><span class="text-sm text-gray-600">(0.3315)</span></td>
+                        </tr>
+                        <tr class="border-b-2 border-gray-300">
+                            <td class="font-semibold">Constant</td>
+                            <td class="text-center">-0.4691<br><span class="text-sm text-gray-600">(0.5993)</span></td>
+                        </tr>
+                        <tr class="border-b border-gray-200 bg-gray-50">
+                            <td class="font-semibold">Observations</td>
+                            <td class="text-center">156</td>
+                        </tr>
+                        <tr class="border-b border-gray-200 bg-gray-50">
+                            <td class="font-semibold">R²</td>
+                            <td class="text-center">0.5375</td>
+                        </tr>
+                        <tr class="border-b border-gray-200 bg-gray-50">
+                            <td class="font-semibold">Adjusted R²</td>
+                            <td class="text-center">0.5156</td>
+                        </tr>
+                        <tr class="border-b border-gray-200 bg-gray-50">
+                            <td class="font-semibold">Residual Std. Error</td>
+                            <td class="text-center">0.9421 (df = 148)</td>
+                        </tr>
+                        <tr class="border-b-2 border-gray-300 bg-gray-50">
+                            <td class="font-semibold">F Statistic</td>
+                            <td class="text-center">24.5695<sup>***</sup> (df = 7; 148)</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2" class="text-right text-xs text-gray-600 py-2">
+                                <div><i>Note:</i> *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</div>
+                                <div><i>Note 2:</i> Standard errors in parentheses</div>
+                                <div class="mt-2 font-semibold text-amber-700">Reference category: Africa</div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <!-- Score Display (hidden initially) -->
+        <div id="score-section" class="bg-white rounded-xl shadow-lg p-6 mb-6 border-2 border-purple-200" style="display: none;">
+            <div class="text-center">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Your Score</h2>
+                <div id="score-display" class="text-5xl font-bold text-purple-600 mb-2">0 / 5</div>
+                <div id="percentage-display" class="text-xl text-gray-600 mb-4">0%</div>
+                <button onclick="resetQuiz()" class="px-6 py-2 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition-colors">
+                    Try Again
+                </button>
+            </div>
+        </div>
+
+        <!-- Questions -->
+        <div class="space-y-6">
+            <!-- Question 1 -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-start gap-3 mb-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                What is the reference region in this regression model?
+                            </h3>
+                            <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs font-semibold rounded">1 pt</span>
+                        </div>
+                        
+                        <div class="space-y-2 ml-2">
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q1" value="a" class="mt-0.5" onchange="saveAnswer(1, 'a')">
+                                <span class="text-gray-800">Africa</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q1" value="b" class="mt-0.5" onchange="saveAnswer(1, 'b')">
+                                <span class="text-gray-800">Asia</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q1" value="c" class="mt-0.5" onchange="saveAnswer(1, 'c')">
+                                <span class="text-gray-800">Europe</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q1" value="d" class="mt-0.5" onchange="saveAnswer(1, 'd')">
+                                <span class="text-gray-800">North America</span>
+                            </label>
+                        </div>
+                        <div id="feedback-1" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-start gap-3 mb-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                Compared to Africa, by how many percentage points is the share of deaths by homicide higher in North America?
+                            </h3>
+                            <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs font-semibold rounded">1 pt</span>
+                        </div>
+                        
+                        <div class="space-y-2 ml-2">
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q2" value="a" class="mt-0.5" onchange="saveAnswer(2, 'a')">
+                                <span class="text-gray-800">0.0895 percentage points</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q2" value="b" class="mt-0.5" onchange="saveAnswer(2, 'b')">
+                                <span class="text-gray-800">2.3088 percentage points</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q2" value="c" class="mt-0.5" onchange="saveAnswer(2, 'c')">
+                                <span class="text-gray-800">1.7068 percentage points</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q2" value="d" class="mt-0.5" onchange="saveAnswer(2, 'd')">
+                                <span class="text-gray-800">4.0156 percentage points (sum of North and South America)</span>
+                            </label>
+                        </div>
+                        <div id="feedback-2" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-start gap-3 mb-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">3</div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                Which regions have a statistically significant difference in homicide rates compared to Africa at the 1% level?
+                            </h3>
+                            <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs font-semibold rounded">1 pt</span>
+                        </div>
+                        
+                        <div class="space-y-2 ml-2">
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q3" value="a" class="mt-0.5" onchange="saveAnswer(3, 'a')">
+                                <span class="text-gray-800">Only North America</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q3" value="b" class="mt-0.5" onchange="saveAnswer(3, 'b')">
+                                <span class="text-gray-800">North America and South America</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q3" value="c" class="mt-0.5" onchange="saveAnswer(3, 'c')">
+                                <span class="text-gray-800">All regions shown</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q3" value="d" class="mt-0.5" onchange="saveAnswer(3, 'd')">
+                                <span class="text-gray-800">None of the regions</span>
+                            </label>
+                        </div>
+                        <div id="feedback-3" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-start gap-3 mb-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">4</div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                What is the interpretation of the Gini coefficient coefficient (4.6777)?
+                            </h3>
+                            <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs font-semibold rounded">1 pt</span>
+                        </div>
+                        
+                        <div class="space-y-2 ml-2">
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q4" value="a" class="mt-0.5" onchange="saveAnswer(4, 'a')">
+                                <span class="text-gray-800">A one-unit increase in the Gini coefficient is associated with a 4.6777 percentage point increase in homicide share</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q4" value="b" class="mt-0.5" onchange="saveAnswer(4, 'b')">
+                                <span class="text-gray-800">A one-unit increase in the Gini coefficient is associated with a 4.6777% increase in homicide share</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q4" value="c" class="mt-0.5" onchange="saveAnswer(4, 'c')">
+                                <span class="text-gray-800">The Gini coefficient is not statistically significant</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q4" value="d" class="mt-0.5" onchange="saveAnswer(4, 'd')">
+                                <span class="text-gray-800">Higher inequality (Gini) is associated with lower homicide rates</span>
+                            </label>
+                        </div>
+                        <div id="feedback-4" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-start gap-3 mb-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">5</div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                What percentage of the variation in homicide rates is explained by this model?
+                            </h3>
+                            <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs font-semibold rounded">1 pt</span>
+                        </div>
+                        
+                        <div class="space-y-2 ml-2">
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q5" value="a" class="mt-0.5" onchange="saveAnswer(5, 'a')">
+                                <span class="text-gray-800">Approximately 51.56%</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q5" value="b" class="mt-0.5" onchange="saveAnswer(5, 'b')">
+                                <span class="text-gray-800">Approximately 53.75%</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q5" value="c" class="mt-0.5" onchange="saveAnswer(5, 'c')">
+                                <span class="text-gray-800">Approximately 24.57%</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="q5" value="d" class="mt-0.5" onchange="saveAnswer(5, 'd')">
+                                <span class="text-gray-800">Approximately 94.21%</span>
+                            </label>
+                        </div>
+                        <div id="feedback-5" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div id="submit-section" class="mt-8 text-center">
+            <button onclick="submitQuiz()" class="px-8 py-3 bg-purple-600 text-white rounded-lg font-bold text-lg hover:bg-purple-700 transition-colors">
+                Submit Quiz
+            </button>
+            <p class="text-sm text-gray-500 mt-2">You can submit even if you haven't answered all questions</p>
+        </div>
+    </div>
+
+    <script>
+        const answers = {};
+        
+        const correctAnswers = {
+            1: { correct: 'a', explanation: 'Africa is the reference region (omitted category) in this regression. All regional coefficients are interpreted relative to Africa.' },
+            2: { correct: 'b', explanation: 'The coefficient for North America is 2.3088, meaning that compared to Africa (the reference), the homicide rate is 2.3088 percentage points higher in North America. This is statistically significant at p<0.01.' },
+            3: { correct: 'b', explanation: 'Both North America (2.3088***) and South America (1.7068***) have three asterisks (***), indicating statistical significance at p<0.01. Asia, Europe, and Oceania are not statistically significant.' },
+            4: { correct: 'a', explanation: 'The coefficient 4.6777*** means that for every one-unit increase in the Gini coefficient, the share of deaths by homicide increases by 4.6777 percentage points, holding other variables constant. This is statistically significant at p<0.01.' },
+            5: { correct: 'a', explanation: 'The Adjusted R² = 0.5156, which means approximately 51.56% of the variation in homicide rates is explained by the model. We use Adjusted R² rather than R² because it accounts for the number of predictors in the model.' }
+        };
+
+        function saveAnswer(questionId, value) {
+            answers[questionId] = value;
+        }
+
+        function calculateScore() {
+            let score = 0;
+            for (let qId in correctAnswers) {
+                if (answers[qId] === correctAnswers[qId].correct) {
+                    score++;
+                }
+            }
+            return score;
+        }
+
+        function submitQuiz() {
+            const score = calculateScore();
+            const totalPoints = 5;
+            const percentage = Math.round((score / totalPoints) * 100);
+
+            document.getElementById('score-section').style.display = 'block';
+            document.getElementById('score-display').textContent = `${score} / ${totalPoints}`;
+            document.getElementById('percentage-display').textContent = `${percentage}%`;
+            document.getElementById('submit-section').style.display = 'none';
+
+            const inputs = document.querySelectorAll('input[type="radio"]');
+            inputs.forEach(input => input.disabled = true);
+
+            for (let qId in correctAnswers) {
+                showFeedback(qId);
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showFeedback(qId) {
+            const feedbackDiv = document.getElementById(`feedback-${qId}`);
+            const isCorrect = answers[qId] === correctAnswers[qId].correct;
+            const questionScore = isCorrect ? 1 : 0;
+
+            feedbackDiv.innerHTML = `
+                <div class="mt-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-sm font-semibold text-gray-700">Score:</span>
+                        <span class="text-lg font-bold text-purple-600">${questionScore} / 1</span>
+                    </div>
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-3 rounded">
+                        <p class="text-sm text-blue-900">
+                            <strong>Explanation:</strong> ${correctAnswers[qId].explanation}
+                        </p>
+                    </div>
+                </div>
+            `;
+            feedbackDiv.style.display = 'block';
+
+            const inputs = document.querySelectorAll(`input[name="q${qId}"]`);
+            inputs.forEach(input => {
+                const label = input.parentElement;
+                const span = label.querySelector('span');
+                
+                if (input.value === correctAnswers[qId].correct) {
+                    span.className = 'text-green-800 font-semibold';
+                    span.innerHTML += ' <span class="text-green-600">✓</span>';
+                } else if (input.checked) {
+                    span.className = 'text-red-800 font-semibold';
+                    span.innerHTML += ' <span class="text-red-600">✗</span>';
+                }
+            });
+        }
+
+        function resetQuiz() {
+            for (let key in answers) {
+                delete answers[key];
+            }
+
+            const inputs = document.querySelectorAll('input[type="radio"]');
+            inputs.forEach(input => {
+                input.checked = false;
+                input.disabled = false;
+            });
+
+            document.getElementById('score-section').style.display = 'none';
+            document.getElementById('submit-section').style.display = 'block';
+
+            for (let qId in correctAnswers) {
+                const feedbackDiv = document.getElementById(`feedback-${qId}`);
+                feedbackDiv.style.display = 'none';
+                feedbackDiv.innerHTML = '';
+            }
+
+            const allSpans = document.querySelectorAll('label span');
+            allSpans.forEach(span => {
+                span.className = 'text-gray-800';
+                const text = span.textContent.replace(' ✓', '').replace(' ✗', '');
+                span.textContent = text;
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
