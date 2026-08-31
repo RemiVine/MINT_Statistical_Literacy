@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 7 Challenge: Confidence Intervals for Proportions</title>
+<style>
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#4f46e5; --accent2:#7c3aed; --ok:#15803d; --bad:#b91c1c; --paper:#ffffff; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:Arial,Helvetica,sans-serif; color:var(--ink); background:linear-gradient(135deg,#eef2ff,#faf5ff,#fff1f2); min-height:100vh; }
+main { max-width:900px; margin:0 auto; padding:28px 18px 48px; }
+header { text-align:center; margin-bottom:24px; }
+h1 { margin:0 0 8px; font-size:clamp(28px,4vw,42px); }
+.subtitle { color:var(--muted); font-size:18px; line-height:1.45; }
+.card { background:var(--paper); border:1px solid #e5e7eb; border-radius:18px; box-shadow:0 12px 30px rgba(31,41,55,.08); padding:24px; margin:18px 0; }
+.progress-row { display:flex; justify-content:space-between; gap:20px; align-items:end; }
+.kicker { text-transform:uppercase; letter-spacing:.08em; font-size:12px; color:var(--muted); font-weight:700; }
+.big { font-size:25px; font-weight:800; margin-top:2px; }
+.bar { height:13px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin-top:14px; }
+.bar > div { height:100%; width:0; background:linear-gradient(90deg,var(--accent),var(--accent2)); transition:width .35s ease; }
+.badge { display:inline-block; padding:5px 10px; border-radius:999px; font-size:12px; font-weight:700; background:#fef3c7; color:#92400e; border:1px solid #fde68a; }
+.scenario-title { font-size:25px; margin:10px 0 18px; }
+.panel { border-left:4px solid #3b82f6; background:#eff6ff; padding:15px 16px; border-radius:0 12px 12px 0; margin:14px 0; line-height:1.55; }
+.panel.task { border-left-color:#f59e0b; background:#fffbeb; }
+.panel strong { display:block; margin-bottom:4px; }
+.options { display:grid; gap:11px; margin-top:18px; }
+.option { width:100%; text-align:left; border:2px solid #d1d5db; background:#fff; border-radius:12px; padding:15px 16px; cursor:pointer; transition:.15s; font-size:16px; }
+.option:hover { border-color:#6366f1; background:#eef2ff; }
+.option[disabled] { cursor:default; }
+.option.correct { border-color:#22c55e; background:#f0fdf4; }
+.option.wrong { border-color:#ef4444; background:#fef2f2; }
+.option.dim { opacity:.55; background:#f9fafb; }
+.feedback { border:2px solid; border-radius:12px; padding:16px; margin-top:16px; line-height:1.55; }
+.feedback.ok { border-color:#4ade80; background:#f0fdf4; color:#14532d; }
+.feedback.bad { border-color:#f87171; background:#fef2f2; color:#7f1d1d; }
+.hint { background:#f5f3ff; border:1px solid #c4b5fd; color:#4c1d95; border-radius:10px; padding:13px 14px; margin-top:12px; line-height:1.5; }
+.actions { display:flex; justify-content:space-between; gap:12px; margin-top:18px; padding-top:16px; border-top:1px solid #e5e7eb; flex-wrap:wrap; }
+button.secondary, button.primary, button.hintbtn { border:0; border-radius:10px; padding:11px 15px; font-weight:700; cursor:pointer; }
+button.secondary { background:#f3f4f6; color:#374151; }
+button.hintbtn { background:transparent; color:#4f46e5; padding-left:0; }
+button.primary { background:linear-gradient(90deg,var(--accent),var(--accent2)); color:#fff; }
+button.primary:disabled { background:#d1d5db; color:#6b7280; cursor:default; }
+.guide h2 { margin-top:0; }
+.guide-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+.guide-item { border:1px solid #e5e7eb; border-radius:12px; padding:14px; background:#fafafa; line-height:1.45; }
+.final { text-align:center; }
+.final .score { font-size:54px; font-weight:900; color:#4f46e5; }
+.source { font-size:12px; color:#6b7280; text-align:center; margin-top:22px; }
+@media (max-width:600px){ .card{padding:18px}.progress-row{align-items:flex-start}.big{font-size:21px} }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>Lecture 7 Challenge: Confidence Intervals for Proportions</h1>
+  <div class="subtitle">Core concepts using the slide wording: inference, point estimate, Margin of Error, confidence level, level of significance, and confidence intervals for proportions.</div>
+</header>
+<div id="app"></div>
+<div class="card guide">
+  <h2>Decision / revision guide</h2>
+  <div class="guide-grid" id="guide"></div>
+</div>
+<div class="source">Based on Statistical Literacy - MINT, Lecture 7.</div>
+</main>
+<script>
+const quiz = {"questions": [{"title": "What is inference?", "context": "The lecture motivates inference with surveys: asking everybody can be cumbersome, time consuming, and costly.", "question": "What is the core goal of inference?", "options": ["From a sample, estimate population parameters", "Replace a sample with a census in every case", "Describe only the observations already collected", "Eliminate sampling variability"], "correct": 0, "explanation": "Inference uses a sample to estimate population parameters.", "hint": "Identify the direction of reasoning: from observed sample information toward an unknown population quantity.", "difficulty": "easy"}, {"title": "Point estimates vary", "context": "The general recipe notes that a point estimate will vary across random samples.", "question": "Why must inference take this variability into account?", "options": ["Because every sample gives exactly the same statistic", "To approximate the population indicator while acknowledging sample-to-sample variation", "To force the point estimate to equal zero", "To avoid using probabilities"], "correct": 1, "explanation": "Because the point estimate varies across random samples, inference uses that variability to approximate the population parameter.", "hint": "Ask what repeated random samples would do to the statistic.", "difficulty": "medium"}, {"title": "General confidence-interval form", "context": "The slides define the confidence interval around a point estimate using a Margin of Error.", "question": "Which expression matches the slides?", "options": ["Point Estimate x MoE", "Point Estimate +/- MoE", "MoE / Point Estimate", "Point Estimate + confidence level"], "correct": 1, "explanation": "A confidence interval is Point Estimate +/- Margin of Error.", "hint": "The interval extends on both sides of the point estimate.", "difficulty": "easy"}, {"title": "Building the Margin of Error", "context": "The Margin of Error is constructed using two elements.", "question": "Which two?", "options": ["Mean and median", "Standard Error and critical value", "Sample size and mode only", "Minimum and maximum"], "correct": 1, "explanation": "The slides define MoE = Standard Error x critical value.", "hint": "One element measures sampling variability; the other comes from a probability distribution.", "difficulty": "easy"}, {"title": "Confidence level and alpha", "context": "A confidence level of 95% leaves a remainder called the level of significance, denoted alpha.", "question": "What is alpha for a 95% confidence level?", "options": ["1%", "2.5%", "5%", "95%"], "correct": 2, "explanation": "The remainder is 100% - 95% = 5%, so alpha = 5%.", "hint": "Subtract the confidence level from 100%.", "difficulty": "easy"}, {"title": "Validity for proportions", "context": "For confidence intervals for proportions, the lecture gives a rule involving p and q.", "question": "Which condition is presented?", "options": ["np > 5 together with nq > 5", "n must always exceed 1,000", "p must equal q exactly", "The sample proportion must be 0 or 1"], "correct": 0, "explanation": "The slides give np > 5 together with nq > 5, or equivalently the broader idea that npq is much larger than 1.", "hint": "Check whether there are enough observations in both binary outcomes.", "difficulty": "medium"}], "guide": ["<strong>Inference:</strong> from a sample, estimate population parameters.", "<strong>Confidence interval:</strong> Point Estimate +/- MoE.", "<strong>Margin of Error:</strong> Standard Error x critical value.", "<strong>Proportion condition:</strong> np &gt; 5 together with nq &gt; 5 (or npq much larger than 1)."]};
+let state = { i:0, selected:null, answered:false, showHint:false, score:0 };
+const app = document.getElementById('app');
+const guide = document.getElementById('guide');
+
+guide.innerHTML = quiz.guide.map(x => `<div class="guide-item">${x}</div>`).join('');
+
+function render(){
+  const q = quiz.questions[state.i];
+  const progress = ((state.i+1)/quiz.questions.length)*100;
+  const complete = state.i === quiz.questions.length-1 && state.answered;
+  let options = q.options.map((o,idx)=>{
+    let cls='option';
+    if(state.answered){
+      if(idx===q.correct) cls += ' correct';
+      else if(idx===state.selected) cls += ' wrong';
+      else cls += ' dim';
+    }
+    return `<button class="${cls}" onclick="answer(${idx})" ${state.answered?'disabled':''}><strong>${String.fromCharCode(65+idx)}.</strong> ${o}</button>`;
+  }).join('');
+  let feedback='';
+  if(state.answered){
+    const ok=state.selected===q.correct;
+    feedback = `<div class="feedback ${ok?'ok':'bad'}"><strong>${ok?'Excellent.':'Not quite.'}</strong><div style="margin-top:6px">${q.explanation}</div></div>`;
+  }
+  let hint = state.showHint && !state.answered ? `<div class="hint"><strong>Hint:</strong> ${q.hint}</div>` : '';
+  let nextButton = state.answered ? `<button class="primary" onclick="next()" ${state.i===quiz.questions.length-1?'disabled':''}>Next scenario</button>` : '';
+  app.innerHTML = `
+    <div class="card">
+      <div class="progress-row">
+        <div><div class="kicker">Progress</div><div class="big">Scenario ${state.i+1} of ${quiz.questions.length}</div></div>
+        <div style="text-align:right"><div class="kicker">Score</div><div class="big" style="color:#4f46e5">${state.score}/${quiz.questions.length}</div></div>
+      </div>
+      <div class="bar"><div style="width:${progress}%"></div></div>
+    </div>
+    <div class="card">
+      <span class="badge">${q.difficulty}</span>
+      <h2 class="scenario-title">${q.title}</h2>
+      <div class="panel"><strong>Context</strong>${q.context}</div>
+      <div class="panel task"><strong>Your task</strong>${q.question}</div>
+      <div class="options">${options}</div>
+      ${!state.answered?`<button class="hintbtn" onclick="toggleHint()">${state.showHint?'Hide hint':'Need a hint?'}</button>`:''}
+      ${hint}
+      ${feedback}
+      <div class="actions">
+        <button class="secondary" onclick="restart()">Restart quiz</button>
+        ${nextButton}
+      </div>
+    </div>
+    ${complete?finalCard():''}`;
+}
+function answer(idx){
+  if(state.answered) return;
+  state.selected=idx; state.answered=true;
+  if(idx===quiz.questions[state.i].correct) state.score++;
+  render();
+}
+function next(){
+  if(state.i < quiz.questions.length-1){ state.i++; state.selected=null; state.answered=false; state.showHint=false; render(); }
+}
+function toggleHint(){ state.showHint=!state.showHint; render(); }
+function restart(){ state={i:0,selected:null,answered:false,showHint:false,score:0}; render(); }
+function finalCard(){
+  const pct=Math.round(state.score/quiz.questions.length*100);
+  let msg = pct===100 ? 'Perfect score.' : pct>=80 ? 'Strong performance.' : pct>=60 ? 'Good foundation - review the explanations.' : 'Keep practicing with the revision guide.';
+  return `<div class="card final"><div class="kicker">Challenge complete</div><div class="score">${state.score}/${quiz.questions.length}</div><div style="font-size:20px;margin-bottom:8px">${pct}% correct</div><p>${msg}</p><button class="primary" onclick="restart()">Retry challenge</button></div>`;
+}
+render();
+</script>
+</body>
+</html>
