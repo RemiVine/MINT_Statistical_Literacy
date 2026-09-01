@@ -20,8 +20,7 @@ h1 { margin:0 0 8px; font-size:clamp(28px,4vw,42px); }
 .bar > div { height:100%; width:0; background:linear-gradient(90deg,var(--accent),var(--accent2)); transition:width .35s ease; }
 .badge { display:inline-block; padding:5px 10px; border-radius:999px; font-size:12px; font-weight:700; background:#fef3c7; color:#92400e; border:1px solid #fde68a; }
 .scenario-title { font-size:25px; margin:10px 0 18px; }
-.panel { border-left:4px solid #3b82f6; background:#eff6ff; padding:15px 16px; border-radius:0 12px 12px 0; margin:14px 0; line-height:1.55; }
-.panel.task { border-left-color:#f59e0b; background:#fffbeb; }
+.panel.task { border-left:4px solid #f59e0b; background:#fffbeb; padding:15px 16px; border-radius:0 12px 12px 0; margin:14px 0; line-height:1.55; }
 .panel strong { display:block; margin-bottom:4px; }
 .options { display:grid; gap:11px; margin-top:18px; }
 .option { width:100%; text-align:left; border:2px solid #d1d5db; background:#fff; border-radius:12px; padding:15px 16px; cursor:pointer; transition:.15s; font-size:16px; }
@@ -52,18 +51,18 @@ button.primary:disabled { background:#d1d5db; color:#6b7280; cursor:default; }
 <body>
 <main>
 <header>
-  <h1>Lecture 5 Challenge: Normal Probabilities in Development Contexts</h1>
-  <div class="subtitle"> </div>
+  <h1>Lecture 5 Challenge: Continuous Random Variables and the Normal Distribution</h1>
+  <div class="subtitle">Core concepts: continuous random variables, density plots, Normal distributions, the Standard Normal distribution, and standardizing.</div>
 </header>
 <div id="app"></div>
 <div class="card guide">
   <h2>Decision / revision guide</h2>
   <div class="guide-grid" id="guide"></div>
 </div>
-<div class="source">Based on Statistical Literacy - MINT, Lecture 5. </div>
+<div class="source">Based on Statistical Literacy - MINT, Lecture 5.</div>
 </main>
 <script>
-const quiz = {"questions":[{"title":"Environmental monitoring","context":"A development project monitors radioactivity levels next to a uranium mine. Measurements can take many decimal values.","question":"How should radioactivity level be classified?","options":["Discrete random variable","Continuous random variable","Binary variable","Nominal category"],"correct":1,"explanation":"Radioactivity level is treated as continuous because it can take an infinite number of values over a measurement scale.","hint":"Decide whether the measurement is a count or a quantity on a continuum.","difficulty":"easy"},{"title":"Exchange rate standardizing","context":"Assume the CHF-euro exchange rate follows the lecture notation X ~ N(1.05, 0.02), where the second parameter is the variance. An observed exchange rate is 0.99.","question":"What is the standardized rate, approximately?","options":["-3.00","-0.424","0.424","3.00"],"correct":1,"explanation":"The standard deviation is sqrt(0.02). Thus z = (0.99 - 1.05) / sqrt(0.02) = -0.06 / 0.1414 = approximately -0.424.","hint":"Use the lecture formula and remember that the second parameter in N(mu, sigma squared) is the variance.","difficulty":"hard"},{"title":"Nutrition programme score","context":"A made-up nutrition indicator is Normally distributed with mean 30 and standard deviation 5. A district records a value of 40.","question":"What is the z-score?","options":["-2","-1","1","2"],"correct":3,"explanation":"z = (40 - 30) / 5 = 2. The district value is 2 standard deviations above the average.","hint":"Subtract the mean first, then divide by the standard deviation.","difficulty":"medium"}],"guide":["<strong>Standardize:</strong> z = (x - &mu;) / &sigma;.","<strong>Destandardize:</strong> x = &mu; + &sigma; x z.","<strong>Symmetry:</strong> for the Standard Normal, equal distances from 0 have equal tail areas.","<strong>Area:</strong> probabilities are shares of the total area under the curve."]};
+const quiz = {"questions":[{"title":"What matters in the continuous case?","question":"What is of interest for a continuous random variable?","options":["Exact single values only","Intervals","Category labels","The number of possible outcomes"],"correct":1,"explanation":"For continuous random variables, intervals are of interest, such as P(X < x_i), P(X > x_i), or P(x_i < X < x_j).","hint":"Think about the forms of probability expressions shown for continuous variables.","difficulty":"easy"},{"title":"The density plot","question":"What must the total area under a density curve equal?","options":["0","0.5","1","It depends on the mean"],"correct":2,"explanation":"A density plot is a curve whose total area under it is 1.","hint":"Connect a density curve to the total probability across all possible values.","difficulty":"easy"},{"title":"Probability as area","question":"For a density plot, P(a < X < b) corresponds to what?","options":["The height of the curve at a","The width b-a only","The area under the curve between a and b","The mean minus the median"],"correct":2,"explanation":"For a continuous random variable, the probability over an interval is the area of that interval under the density curve.","hint":"Focus on what part of the graph accumulates probability over an interval.","difficulty":"medium"},{"title":"The Standard Normal distribution","question":"Which pair of parameters defines the Standard Normal distribution?","options":["&mu; = 1 and &sigma; = 0","&mu; = 0 and &sigma; = 1","&mu; = 0 and &sigma; = 0","&mu; = 1 and &sigma; = 1"],"correct":1,"explanation":"For Z following the Standard Normal distribution, the average is 0 and the standard deviation is 1.","hint":"Recall the two values that make the distribution standard.","difficulty":"medium"},{"title":"Reading the Standard Normal table","question":"Using a standard Normal distribution table, if P(Z > z) = 0.1587, what is z?","options":["z = 0.5","z = 1","z = 1.5","z = 2"],"correct":1,"explanation":"The Lecture 5 table example states that a probability of 0.1587 in the upper tail corresponds to z = 1.","hint":"Locate 0.1587 in the table and identify the corresponding z-score.","difficulty":"medium"}],"guide":["<strong>Continuous random variables:</strong> intervals are of interest.","<strong>Density plot:</strong> probability over an interval is represented by area under the curve.","<strong>Standardizing:</strong> z = (x - &mu;) / &sigma;.","<strong>Reading the Standard Normal table:</strong> use a known probability to identify the corresponding z-score."]};
 let state = { i:0, selected:null, answered:false, showHint:false, score:0 };
 const app = document.getElementById('app');
 const guide = document.getElementById('guide');
@@ -89,11 +88,11 @@ function render(){
     feedback = `<div class="feedback ${ok?'ok':'bad'}"><strong>${ok?'Excellent.':'Not quite.'}</strong><div style="margin-top:6px">${q.explanation}</div></div>`;
   }
   let hint = state.showHint && !state.answered ? `<div class="hint"><strong>Hint:</strong> ${q.hint}</div>` : '';
-  let nextButton = state.answered ? `<button class="primary" onclick="next()" ${state.i===quiz.questions.length-1?'disabled':''}>Next scenario</button>` : '';
+  let nextButton = state.answered ? `<button class="primary" onclick="next()" ${state.i===quiz.questions.length-1?'disabled':''}>Next question</button>` : '';
   app.innerHTML = `
     <div class="card">
       <div class="progress-row">
-        <div><div class="kicker">Progress</div><div class="big">Scenario ${state.i+1} of ${quiz.questions.length}</div></div>
+        <div><div class="kicker">Progress</div><div class="big">Question ${state.i+1} of ${quiz.questions.length}</div></div>
         <div style="text-align:right"><div class="kicker">Score</div><div class="big" style="color:#4f46e5">${state.score}/${quiz.questions.length}</div></div>
       </div>
       <div class="bar"><div style="width:${progress}%"></div></div>
@@ -101,8 +100,7 @@ function render(){
     <div class="card">
       <span class="badge">${q.difficulty}</span>
       <h2 class="scenario-title">${q.title}</h2>
-      <div class="panel"><strong>Context</strong>${q.context}</div>
-      <div class="panel task"><strong>Your task</strong>${q.question}</div>
+<div class="panel task"><strong>Your task</strong>${q.question}</div>
       <div class="options">${options}</div>
       ${!state.answered?`<button class="hintbtn" onclick="toggleHint()">${state.showHint?'Hide hint':'Need a hint?'}</button>`:''}
       ${hint}
