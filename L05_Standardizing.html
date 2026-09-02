@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 5 Challenge: Standardizing Normal Distributions</title>
+<style>
+:root{--ink:#1f2937;--muted:#6b7280;--accent:#4f46e5;--accent2:#7c3aed;--ok:#15803d;--bad:#b91c1c}
+*{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:linear-gradient(135deg,#eef2ff,#faf5ff,#fff1f2);min-height:100vh}
+main{max-width:900px;margin:0 auto;padding:28px 18px 48px} header{text-align:center;margin-bottom:24px} h1{margin:0 0 8px;font-size:clamp(28px,4vw,42px)} .subtitle{color:var(--muted);font-size:18px;line-height:1.45}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:18px;box-shadow:0 12px 30px rgba(31,41,55,.08);padding:24px;margin:18px 0}
+.progress-row{display:flex;justify-content:space-between;gap:20px;align-items:end}.kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12px;color:var(--muted);font-weight:700}.big{font-size:25px;font-weight:800;margin-top:2px}
+.bar{height:13px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-top:14px}.bar>div{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .35s ease}
+.badge{display:inline-block;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700;background:#fef3c7;color:#92400e;border:1px solid #fde68a}.question-title{font-size:25px;margin:10px 0 18px}
+.task{border-left:4px solid #f59e0b;background:#fffbeb;padding:15px 16px;border-radius:0 12px 12px 0;margin:14px 0;line-height:1.55}.task strong{display:block;margin-bottom:4px}
+.options{display:grid;gap:11px;margin-top:18px}.option{width:100%;text-align:left;border:2px solid #d1d5db;background:#fff;border-radius:12px;padding:15px 16px;cursor:pointer;transition:.15s;font-size:16px;line-height:1.35}.option:hover{border-color:#6366f1;background:#eef2ff}.option[disabled]{cursor:default}.option.correct{border-color:#22c55e;background:#f0fdf4}.option.wrong{border-color:#ef4444;background:#fef2f2}.option.dim{opacity:.55;background:#f9fafb}
+.feedback{border:2px solid;border-radius:12px;padding:16px;margin-top:16px;line-height:1.55}.feedback.ok{border-color:#4ade80;background:#f0fdf4;color:#14532d}.feedback.bad{border-color:#f87171;background:#fef2f2;color:#7f1d1d}
+.hint{background:#f5f3ff;border:1px solid #c4b5fd;color:#4c1d95;border-radius:10px;padding:13px 14px;margin-top:12px;line-height:1.5}.actions{display:flex;justify-content:space-between;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid #e5e7eb;flex-wrap:wrap}
+button{border:0;border-radius:10px;padding:11px 15px;font-weight:700;cursor:pointer}.secondary{background:#f3f4f6;color:#374151}.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff}.primary:disabled{background:#d1d5db;color:#6b7280;cursor:default}.hintbtn{background:transparent;color:#4f46e5;padding-left:0}
+.guide h2{margin-top:0}.guide-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.guide-item{border:1px solid #e5e7eb;border-radius:12px;padding:14px;background:#fafafa;line-height:1.45}.final{text-align:center}.final .score{font-size:54px;font-weight:900;color:#4f46e5}.source{font-size:12px;color:#6b7280;text-align:center;margin-top:22px}
+@media(max-width:600px){.card{padding:18px}.progress-row{align-items:flex-start}.big{font-size:21px}}
+</style>
+</head>
+<body>
+<main>
+<header>
+<h1>Lecture 5 Challenge: Standardizing Normal Distributions</h1>
+<div class="subtitle">Practice standardizing, interpreting z-scores, distinguishing variance from standard deviation, and destandardizing.</div>
+</header>
+<div id="app"></div>
+<div class="card guide"><h2>Decision / revision guide</h2><div class="guide-grid" id="guide"></div></div>
+<div class="source">Based on Statistical Literacy — MINT, Lecture 5.</div>
+</main>
+<script id="quiz-data" type="application/json">
+{"questions":[
+{"title":"Standardizing a student's weight","question":"The weight of students is Normally distributed with an average of 60 kg and a standard deviation of 20 kg. What is the standardized weight of a person weighing 72 kg?","options":["0.4","0.6","1.2","12"],"correct":1,"explanation":"z = (72 − 60) / 20 = 12 / 20 = 0.6.","hint":"Subtract the average from the observed value, then divide by the standard deviation.","difficulty":"easy"},
+{"title":"Standardizing the CHF–€ exchange rate","question":"The CHF–€ exchange rate follows X ~ N(1.05, 0.02), where 0.02 is the variance. What is the standardized value of an exchange rate of 0.99?","options":["−0.300","−0.424","0.424","−3.000"],"correct":1,"explanation":"The standard deviation is √0.02 ≈ 0.1414. Therefore z = (0.99 − 1.05) / √0.02 ≈ −0.424.","hint":"The second parameter is the variance, so first obtain the standard deviation.","difficulty":"hard"},
+{"title":"Interpreting a standardized distance","question":"An individual's standardized distance to work is z = −2. What does this mean?","options":["The distance is 2 km below the average.","The distance is 2 standard deviations below the average.","The distance is 2 standard deviations above the average.","The distance is exactly 2 km."],"correct":1,"explanation":"A z-score of −2 means the observation is 2 standard deviations below the average.","hint":"Focus on the sign and on what a standardized value measures.","difficulty":"medium"},
+{"title":"Destandardizing a distance","question":"The average distance to work is 15 km and the variance is 16 km². An individual's standardized distance is z = −2. What is this individual's distance to work?","options":["7 km","11 km","19 km","23 km"],"correct":0,"explanation":"The standard deviation is √16 = 4 km. Then x = 15 + 4 × (−2) = 7 km.","hint":"First convert the variance into a standard deviation, then use the standardized value to recover x.","difficulty":"medium"}
+],"guide":[
+"<strong>Standardize:</strong> z = (x − μ) / σ.",
+"<strong>Interpret z:</strong> it tells how many standard deviations an observation is above or below the average.",
+"<strong>Variance versus standard deviation:</strong> if N(μ, σ²) is given, take the square root of σ² to obtain σ.",
+"<strong>Destandardize:</strong> x = μ + σ × z."
+]}
+</script>
+<script>
+(function(){
+'use strict';
+const data=document.getElementById('quiz-data');
+const quiz=JSON.parse(data.textContent.trim());
+let state={i:0,selected:null,answered:false,showHint:false,score:0};
+const app=document.getElementById('app');
+const guide=document.getElementById('guide');
+guide.innerHTML=quiz.guide.map(x=>'<div class="guide-item">'+x+'</div>').join('');
+function render(){
+ const q=quiz.questions[state.i];
+ const progress=((state.i+1)/quiz.questions.length)*100;
+ const complete=state.i===quiz.questions.length-1 && state.answered;
+ let options=q.options.map(function(o,idx){
+  let cls='option';
+  if(state.answered){if(idx===q.correct)cls+=' correct';else if(idx===state.selected)cls+=' wrong';else cls+=' dim';}
+  return '<button class="'+cls+'" data-index="'+idx+'" '+(state.answered?'disabled':'')+'><strong>'+String.fromCharCode(65+idx)+'.</strong> '+o+'</button>';
+ }).join('');
+ let feedback='';
+ if(state.answered){const ok=state.selected===q.correct;feedback='<div class="feedback '+(ok?'ok':'bad')+'"><strong>'+(ok?'Excellent.':'Not quite.')+'</strong><div style="margin-top:6px">'+q.explanation+'</div></div>';}
+ let hint=state.showHint&&!state.answered?'<div class="hint"><strong>Hint:</strong> '+q.hint+'</div>':'';
+ let next=state.answered?'<button class="primary" id="nextBtn" '+(state.i===quiz.questions.length-1?'disabled':'')+'>Next question</button>':'';
+ app.innerHTML='<div class="card"><div class="progress-row"><div><div class="kicker">Progress</div><div class="big">Question '+(state.i+1)+' of '+quiz.questions.length+'</div></div><div style="text-align:right"><div class="kicker">Score</div><div class="big" style="color:#4f46e5">'+state.score+'/'+quiz.questions.length+'</div></div></div><div class="bar"><div style="width:'+progress+'%"></div></div></div><div class="card"><span class="badge">'+q.difficulty+'</span><h2 class="question-title">'+q.title+'</h2><div class="task"><strong>Your task</strong>'+q.question+'</div><div class="options">'+options+'</div>'+(!state.answered?'<button class="hintbtn" id="hintBtn">'+(state.showHint?'Hide hint':'Need a hint?')+'</button>':'')+hint+feedback+'<div class="actions"><button class="secondary" id="restartBtn">Restart quiz</button>'+next+'</div></div>'+ (complete?finalCard():'');
+ app.querySelectorAll('.option').forEach(function(btn){btn.addEventListener('click',function(){answer(Number(btn.dataset.index));});});
+ const h=app.querySelector('#hintBtn'); if(h)h.addEventListener('click',toggleHint);
+ const n=app.querySelector('#nextBtn'); if(n)n.addEventListener('click',nextQuestion);
+ app.querySelector('#restartBtn').addEventListener('click',restart);
+}
+function answer(idx){if(state.answered)return;state.selected=idx;state.answered=true;if(idx===quiz.questions[state.i].correct)state.score++;render();}
+function nextQuestion(){if(state.i<quiz.questions.length-1){state.i++;state.selected=null;state.answered=false;state.showHint=false;render();}}
+function toggleHint(){state.showHint=!state.showHint;render();}
+function restart(){state={i:0,selected:null,answered:false,showHint:false,score:0};render();}
+function finalCard(){const pct=Math.round(state.score/quiz.questions.length*100);const msg=pct===100?'Perfect score.':pct>=75?'Strong performance.':pct>=50?'Good work — review the explanations.':'Keep practicing with the revision guide.';return '<div class="card final"><div class="kicker">Challenge complete</div><div class="score">'+state.score+'/'+quiz.questions.length+'</div><div style="font-size:20px;margin-bottom:8px">'+pct+'% correct</div><p>'+msg+'</p><button class="primary" id="retryBtn">Retry challenge</button></div>';}
+render();
+})();
+</script>
+</body>
+</html>
