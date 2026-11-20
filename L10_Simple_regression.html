@@ -1,0 +1,525 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Statistical Literacy — Simple Regression Quiz</title>
+
+<style>
+  :root {
+    --primary: #81932e;
+    --light: #f4f6e9;
+    --border: #d9dec8;
+    --text: #26312b;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f7f8f5;
+    color: var(--text);
+    line-height: 1.6;
+    margin: 0;
+    padding: 24px;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+  }
+
+  h1 { color: var(--primary); margin-bottom: 5px; }
+  h2 { font-size: 1.2rem; }
+
+  .subtitle { color: #666; margin-top: 0; }
+
+  .context {
+    background: var(--light);
+    padding: 20px;
+    border-left: 5px solid var(--primary);
+    border-radius: 5px;
+    margin: 25px 0;
+  }
+
+  .equation {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 15px;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 15px 0;
+  }
+
+  th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+
+  th { background: #eef1e4; }
+
+  .question {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .question h3 {
+    font-size: 1.05rem;
+    margin-bottom: 12px;
+  }
+
+  .option {
+    display: block;
+    padding: 11px;
+    margin: 7px 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .option:hover { background: #f3f6ed; }
+
+  .option input { margin-right: 10px; }
+
+  .correct {
+    background: #e5f4e8;
+    border-color: #388e3c;
+  }
+
+  .incorrect {
+    background: #fde9e7;
+    border-color: #d84343;
+  }
+
+  .feedback {
+    display: none;
+    margin-top: 12px;
+    padding: 12px;
+    background: #f1f3f5;
+    border-radius: 6px;
+  }
+
+  button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 13px 24px;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+
+  button:hover { background: #667722; }
+
+  #result {
+    margin-top: 25px;
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+
+  .note { font-size: 0.85rem; color: #666; }
+
+  @media (max-width: 600px) {
+    body { padding: 10px; }
+    .container { padding: 18px; }
+    .equation { font-size: 1.2rem; }
+  }
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>Statistical Literacy — MINT</h1>
+<p class="subtitle">
+Lecture 10 · Correlation &amp; Univariate Linear Regression
+</p>
+
+<h2>Quiz: Education and Child Mortality</h2>
+
+<div class="context">
+  <p>
+    A development economist investigates the relationship between
+    girls' secondary-school completion and under-five mortality
+    across 100 countries.
+  </p>
+
+  <p><strong>Dependent variable (Y):</strong>
+    Under-five mortality, measured as deaths per 1,000 live births.
+  </p>
+
+  <p><strong>Explanatory variable (X):</strong>
+    Girls' secondary-school completion rate, measured in percent.
+  </p>
+
+  <p>The estimated univariate OLS regression is:</p>
+
+  <div class="equation">
+    Ŷ = 110 − 0.80X
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Variable</th>
+        <th>Coefficient</th>
+        <th>Standard error</th>
+        <th>p-value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Girls' secondary-school completion</td>
+        <td>−0.80</td>
+        <td>0.15</td>
+        <td>&lt; 0.001</td>
+      </tr>
+      <tr>
+        <td>Constant</td>
+        <td>110.00</td>
+        <td>8.00</td>
+        <td>&lt; 0.001</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Observations:</strong> 100 countries</p>
+  <p><strong>R²:</strong> 0.64</p>
+
+  <p class="note">
+    Note: All regression results are hypothetical and intended
+    for educational purposes.
+  </p>
+</div>
+
+<form id="quiz">
+
+<div class="question" data-answer="b">
+  <h3>Question 1 — Interpreting the slope</h3>
+  <p>How should the coefficient −0.80 be interpreted?</p>
+
+  <label class="option">
+    <input type="radio" name="q1" value="a">
+    A one-percentage-point increase in completion is associated
+    with an 80% decrease in mortality.
+  </label>
+
+  <label class="option">
+    <input type="radio" name="q1" value="b">
+    A one-percentage-point increase in completion is associated
+    with 0.8 fewer deaths per 1,000 live births.
+  </label>
+
+  <label class="option">
+    <input type="radio" name="q1" value="c">
+    A 1% increase in completion causes mortality to decrease by
+    0.8%.
+  </label>
+
+  <label class="option">
+    <input type="radio" name="q1" value="d">
+    Mortality decreases by 0.8 deaths whenever completion
+    increases by 10 percentage points.
+  </label>
+
+  <div class="feedback">
+    <strong>Explanation:</strong>
+    The slope measures the predicted change in Y for a
+    one-unit increase in X. Here, one unit of X is one
+    percentage point, and Y is measured in deaths per
+    1,000 live births. The relationship is associational,
+    not necessarily causal.
+  </div>
+</div>
+
+<div class="question" data-answer="c">
+  <h3>Question 2 — Interpreting the intercept</h3>
+  <p>What does the intercept of 110 represent?</p>
+
+  <label class="option">
+    <input type="radio" name="q2" value="a">
+    The average mortality rate across the 100 countries.
+  </label>
+
+  <label class="option">
+    <input type="radio" name="q2" value="b">
+    The predicted mortality rate when completion reaches 100%.
+  </label>
+
+  <label class="option">
+    <input type="radio" name="q2" value="c">
+    The predicted mortality rate when completion is 0%.
+  </label>
+
+  <label class="option">
+    <input type="radio" name="q2" value="d">
+    The highest mortality rate observed in the sample.
+  </label>
+
+  <div class="feedback">
+    <strong>Explanation:</strong>
+    The intercept is the predicted value of Y when X = 0.
+    Whether a zero completion rate is realistic or meaningful
+    depends on the context and the observed data.
+  </div>
+</div>
+
+<div class="question" data-answer="a">
+  <h3>Question 3 — Making predictions</h3>
+  <p>
+    What is the predicted under-five mortality rate
+    for a country where girls' secondary-school completion
+    is 75%?
+  </p>
+
+  <label class="option">
+    <input type="radio" name="q3" value="a">
+    50 deaths per 1,000 live births
+  </label>
+
+  <label class="option">
+    <input type="radio" name="q3" value="b">
+    60 deaths per 1,000 live births
+  </label>
+
+  <label class="option">
+    <input type="radio" name="q3" value="c">
+    75 deaths per 1,000 live births
+  </label>
+
+  <label class="option">
+    <input type="radio" name="q3" value="d">
+    110 deaths per 1,000 live births
+  </label>
+
+  <div class="feedback">
+    <strong>Explanation:</strong>
+    Substitute X = 75 into the estimated equation:
+    Ŷ = 110 − 0.80 × 75 = 50 deaths per 1,000 live births.
+  </div>
+</div>
+
+<div class="question" data-answer="d">
+  <h3>Question 4 — Understanding residuals</h3>
+  <p>
+    A country has a completion rate of 50% and an observed
+    under-five mortality rate of 80 deaths per 1,000 live births.
+    What is its residual?
+  </p>
+
+  <label class="option">
+    <input type="radio" name="q4" value="a">
+    −10 deaths per 1,000 live births
+  </label>
+
+  <label class="option">
+    <input type="radio" name="q4" value="b">
+    0 deaths per 1,000 live births
+  </label>
+
+  <label class="option">
+    <input type="radio" name="q4" value="c">
+    70 deaths per 1,000 live births
+  </label>
+
+  <label class="option">
+    <input type="radio" name="q4" value="d">
+    +10 deaths per 1,000 live births
+  </label>
+
+  <div class="feedback">
+    <strong>Explanation:</strong>
+    The predicted mortality rate is
+    Ŷ = 110 − 0.80 × 50 = 70.
+    The residual is observed minus predicted:
+    e = 80 − 70 = +10 deaths per 1,000 live births.
+  </div>
+</div>
+
+<div class="question" data-answer="b">
+  <h3>Question 5 — Statistical inference</h3>
+  <p>
+    The slope has a p-value below 0.001.
+    What can we conclude at the 5% significance level,
+    when testing H₀: β₁ = 0 against H₁: β₁ ≠ 0?
+  </p>
+
+  <label class="option">
+    <input type="radio" name="q5" value="a">
+    We fail to reject the null hypothesis.
+  </label>
+
+  <label class="option">
+    <input type="radio" name="q5" value="b">
+    We reject the null hypothesis: the slope is
+    statistically different from zero.
+  </label>
+
+  <label class="option">
+    <input type="radio" name="q5" value="c">
+    We have demonstrated that education causes
+    lower child mortality.
+  </label>
+
+  <label class="option">
+    <input type="radio" name="q5" value="d">
+    There is a probability below 0.1% that the
+    null hypothesis is true.
+  </label>
+
+  <div class="feedback">
+    <strong>Explanation:</strong>
+    Since p &lt; 0.001 &lt; 0.05, we reject H₀.
+    There is evidence of a statistically significant
+    linear association. Statistical significance
+    does not establish causality, and the p-value
+    is not the probability that H₀ is true.
+  </div>
+</div>
+
+<div class="question" data-answer="c">
+  <h3>Question 6 — Interpreting R²</h3>
+  <p>What does R² = 0.64 tell us about the regression?</p>
+
+  <label class="option">
+    <input type="radio" name="q6" value="a">
+    Education reduces child mortality by 64%.
+  </label>
+
+  <label class="option">
+    <input type="radio" name="q6" value="b">
+    The correlation between education and mortality
+    is +0.64.
+  </label>
+
+  <label class="option">
+    <input type="radio" name="q6" value="c">
+    The model explains 64% of the sample variation
+    in under-five mortality.
+  </label>
+
+  <label class="option">
+    <input type="radio" name="q6" value="d">
+    The model predicts mortality correctly
+    for 64% of countries.
+  </label>
+
+  <div class="feedback">
+    <strong>Explanation:</strong>
+    R² measures the proportion of variation in Y
+    accounted for by the fitted regression.
+    Here, the model accounts for 64% of the
+    sample variation in under-five mortality.
+    In simple OLS with an intercept, the
+    correlation is −√0.64 = −0.80.
+  </div>
+</div>
+
+<button type="button" id="submitBtn" onclick="gradeQuiz()">
+  Submit answers
+</button>
+
+<button type="button" id="retryBtn"
+        onclick="resetQuiz()" style="display:none;">
+  Try again
+</button>
+
+<div id="result" role="status" aria-live="polite"></div>
+
+</form>
+
+<p class="note" style="margin-top:35px;">
+  Statistical Literacy — MINT |
+  Lecture 10: Correlation &amp; Linear Univariate Regression
+</p>
+
+</div>
+
+<script>
+function gradeQuiz() {
+  const questions = document.querySelectorAll(".question");
+  let score = 0;
+  let answered = 0;
+
+  questions.forEach((question, index) => {
+    const correct = question.dataset.answer;
+    const selected = question.querySelector(
+      `input[name="q${index + 1}"]:checked`
+    );
+
+    if (selected) answered++;
+  });
+
+  if (answered < questions.length) {
+    alert("Please answer all questions before submitting.");
+    return;
+  }
+
+  questions.forEach((question, index) => {
+    const correct = question.dataset.answer;
+    const selected = question.querySelector(
+      `input[name="q${index + 1}"]:checked`
+    );
+
+    question.querySelectorAll(".option").forEach(option => {
+      option.classList.remove("correct", "incorrect");
+      const input = option.querySelector("input");
+
+      if (input.value === correct) {
+        option.classList.add("correct");
+      }
+
+      if (input.checked && input.value !== correct) {
+        option.classList.add("incorrect");
+      }
+
+      input.disabled = true;
+    });
+
+    if (selected.value === correct) score++;
+
+    question.querySelector(".feedback").style.display = "block";
+  });
+
+  const percentage = Math.round(100 * score / questions.length);
+
+  document.getElementById("result").textContent =
+    `Your score: ${score}/${questions.length} (${percentage}%)`;
+
+  document.getElementById("submitBtn").style.display = "none";
+  document.getElementById("retryBtn").style.display = "inline-block";
+}
+
+function resetQuiz() {
+  document.getElementById("quiz").reset();
+
+  document.querySelectorAll(".question").forEach(question => {
+    question.querySelectorAll(".option").forEach(option => {
+      option.classList.remove("correct", "incorrect");
+      option.querySelector("input").disabled = false;
+    });
+
+    question.querySelector(".feedback").style.display = "none";
+  });
+
+  document.getElementById("result").textContent = "";
+  document.getElementById("submitBtn").style.display = "inline-block";
+  document.getElementById("retryBtn").style.display = "none";
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+</script>
+
+</body>
+</html>
