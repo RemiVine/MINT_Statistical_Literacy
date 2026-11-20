@@ -3,858 +3,588 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simple Linear Regression Quiz</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simple Regression Quiz — MINT</title>
 
 <style>
 :root {
-    --purple: #6941c6;
-    --purple-dark: #5531a7;
-    --text: #253047;
-    --muted: #667085;
-    --border: #e3e5ec;
+  --purple: #6d42c4;
+  --dark: #32215d;
+  --muted: #667085;
+  --border: #e3e5ec;
 }
-
-* {
-    box-sizing: border-box;
-}
-
+* { box-sizing: border-box; }
 body {
-    font-family: -apple-system, BlinkMacSystemFont,
-                 "Segoe UI", Roboto, sans-serif;
-    background: linear-gradient(135deg, #f6f0ff, #edf4ff);
-    margin: 0;
-    padding: 25px;
-    color: var(--text);
-    line-height: 1.6;
+  margin: 0;
+  padding: 25px 14px;
+  font-family: system-ui, -apple-system, Arial, sans-serif;
+  line-height: 1.6;
+  color: #283044;
+  background: linear-gradient(135deg,#f5efff,#edf4ff);
 }
-
-.container {
-    max-width: 900px;
-    margin: auto;
-}
-
-.header {
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-.header h1 {
-    font-size: 34px;
-    margin-bottom: 5px;
-    color: #392276;
-}
-
-.subtitle {
-    color: var(--muted);
-}
-
+.container { max-width: 850px; margin: auto; }
+header { text-align: center; margin-bottom: 25px; }
+h1 { color: var(--dark); margin-bottom: 4px; }
+.subtitle { color: var(--muted); }
 .card {
-    background: white;
-    border-radius: 14px;
-    padding: 28px;
-    margin-bottom: 20px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+  background: white;
+  padding: 28px;
+  margin-bottom: 18px;
+  border-radius: 14px;
+  box-shadow: 0 5px 22px #24304714;
 }
-
-h2 {
-    margin-top: 0;
+h2 { margin-top: 0; }
+table { width: 100%; border-collapse: collapse; }
+th,td {
+  padding: 9px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
 }
-
+th { background: #f3f0fa; }
+.small { font-size: 13px; color: var(--muted); }
 .equation {
-    background: #f4efff;
-    padding: 15px;
-    border-left: 5px solid var(--purple);
-    border-radius: 6px;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    margin: 20px 0;
+  text-align: center;
+  padding: 14px;
+  background: #f4efff;
+  border-left: 4px solid var(--purple);
+  font-size: 24px;
+  font-weight: bold;
+  border-radius: 5px;
 }
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-    margin-top: 15px;
+.topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
 }
-
-th, td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-}
-
-th {
-    background: #f4f2fb;
-}
-
-.small {
-    font-size: 13px;
-    color: var(--muted);
-}
-
-.progress {
-    height: 10px;
-    background: #ece8f7;
-    border-radius: 10px;
-    overflow: hidden;
-    margin: 15px 0 25px;
-}
-
-.progress-fill {
-    height: 100%;
-    background: var(--purple);
-    transition: width 0.3s ease;
-}
-
-.question-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
 .badge {
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: bold;
+  font-size: 13px;
+  font-weight: bold;
+  border-radius: 20px;
+  padding: 4px 12px;
 }
-
-.easy {
-    background: #e7f5e9;
-    color: #207a40;
+.easy { background: #e6f5e9; color: #217541; }
+.medium { background: #fff0d1; color: #956100; }
+.points { background: #eee8ff; color: #5630a9; }
+.progress {
+  height: 9px;
+  background: #ebe5f7;
+  border-radius: 20px;
+  margin: 16px 0 24px;
+  overflow: hidden;
 }
-
-.medium {
-    background: #fff3d6;
-    color: #946000;
+#progress-fill {
+  height: 100%;
+  width: 0;
+  background: var(--purple);
+  transition: width .3s;
 }
-
-.points {
-    background: #eee8ff;
-    color: #5531a7;
-}
-
 .option {
-    display: block;
-    padding: 13px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin: 10px 0;
-    cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 13px;
+  border: 1px solid #dcdfea;
+  border-radius: 9px;
+  margin: 9px 0;
+  cursor: pointer;
 }
-
-.option:hover {
-    background: #f7f4ff;
-}
-
+.option:hover { background: #f8f6ff; }
 .option:has(input:checked) {
-    background: #f4efff;
-    border: 2px solid var(--purple);
-    padding: 12px;
+  border-color: var(--purple);
+  background: #f4efff;
 }
-
 .option input {
-    margin-right: 10px;
-    accent-color: var(--purple);
+  margin-top: 5px;
+  accent-color: var(--purple);
 }
-
+.option.correct {
+  border: 2px solid #23854d;
+  background: #eaf8ef;
+}
+.option.wrong {
+  border: 2px solid #c83e45;
+  background: #fff0f0;
+}
 details {
-    margin-top: 20px;
-    background: #f3f6fc;
-    border-radius: 8px;
-    padding: 13px;
+  margin-top: 20px;
+  padding: 13px 16px;
+  background: #f2f5fc;
+  border-radius: 8px;
 }
-
-summary {
-    cursor: pointer;
-    font-weight: bold;
-    color: #3d4f86;
-}
-
-.buttons {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    margin-top: 25px;
-}
-
+summary { cursor: pointer; font-weight: bold; color: #425b93; }
 button {
-    padding: 12px 22px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 23px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
 }
-
-.primary {
-    background: var(--purple);
-    color: white;
+.primary { background: var(--purple); color: white; }
+.primary:hover { background: #5630a9; }
+.primary:disabled { opacity: .45; cursor: not-allowed; }
+.secondary { background: #eee8ff; color: #5630a9; }
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 23px;
 }
-
-.primary:hover {
-    background: var(--purple-dark);
-}
-
-.secondary {
-    background: #ece8f7;
-    color: #5531a7;
-}
-
-button:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
-.hidden {
-    display: none;
-}
-
-.score {
-    font-size: 48px;
-    font-weight: bold;
-    color: var(--purple);
-    text-align: center;
-}
-
 .feedback {
-    background: #f4f1ff;
-    border-left: 4px solid var(--purple);
-    padding: 15px;
-    border-radius: 6px;
-    margin-top: 12px;
+  margin-top: 20px;
+  padding: 17px;
+  border-radius: 8px;
+  border-left: 5px solid;
 }
-
-.correct {
-    color: #207a40;
-    font-weight: bold;
+.feedback.good {
+  background: #eaf8ef;
+  border-color: #23854d;
 }
-
-.incorrect {
-    color: #b42318;
-    font-weight: bold;
+.feedback.bad {
+  background: #fff0f0;
+  border-color: #c83e45;
 }
-
-.review-item {
-    padding: 18px 0;
-    border-bottom: 1px solid var(--border);
+.feedback h3 { margin: 0 0 7px; }
+.feedback p { margin: 8px 0; }
+.hidden { display: none !important; }
+.score {
+  font-size: 54px;
+  color: var(--purple);
+  font-weight: 800;
+  text-align: center;
 }
-
-@media(max-width: 600px) {
-    body {
-        padding: 10px;
-    }
-
-    .card {
-        padding: 18px;
-    }
-
-    .header h1 {
-        font-size: 26px;
-    }
+.review {
+  border-bottom: 1px solid var(--border);
+  padding: 15px 0;
+}
+@media(max-width:600px) {
+  .card { padding: 18px; }
+  h1 { font-size: 27px; }
+  body { padding: 12px; }
 }
 </style>
 </head>
 
 <body>
-
 <div class="container">
 
-    <!-- HEADER -->
+<header>
+  <h1>Simple Linear Regression Quiz</h1>
+  <p class="subtitle">Statistical Literacy — MINT | Lecture 10</p>
+  <p class="small">Education and Child Mortality · 6 Questions</p>
+</header>
 
-    <div class="header">
-        <h1>Simple Linear Regression Quiz</h1>
+<!-- REGRESSION TABLE -->
+<section class="card" id="context">
+  <h2>Regression Results</h2>
 
-        <p class="subtitle">
-            Statistical Literacy — MINT | Lecture 10
-        </p>
+  <p>
+    A development economist investigates the relationship
+    between girls' secondary-school completion and
+    under-five mortality across 100 countries.
+  </p>
 
-        <p class="small">
-            Education and Child Mortality
-            · 6 Questions · 6 Points
-        </p>
-    </div>
+  <p><strong>Y:</strong> Under-five mortality
+  (deaths per 1,000 live births).</p>
 
+  <p><strong>X:</strong> Girls' secondary-school
+  completion rate (%).</p>
 
-    <!-- REGRESSION CONTEXT -->
+  <div class="equation">Ŷ = 110 − 0.80X</div>
 
-    <div class="card" id="regression-context">
+  <table>
+    <thead>
+      <tr>
+        <th>Variable</th>
+        <th>Coefficient</th>
+        <th>Std. Error</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Girls' secondary-school completion</td>
+        <td>−0.8000***</td>
+        <td>0.1500</td>
+      </tr>
+      <tr>
+        <td>Constant</td>
+        <td>110.0000***</td>
+        <td>8.0000</td>
+      </tr>
+      <tr>
+        <td>Observations</td>
+        <td colspan="2">100</td>
+      </tr>
+      <tr>
+        <td>R²</td>
+        <td colspan="2">0.2250</td>
+      </tr>
+      <tr>
+        <td>F-statistic</td>
+        <td colspan="2">28.44*** (df = 1; 98)</td>
+      </tr>
+    </tbody>
+  </table>
 
-        <h2>Regression Results</h2>
+  <p class="small">
+    *** p &lt; 0.01. Hypothetical regression results.
+    Figures are rounded.
+  </p>
+</section>
 
-        <p>
-            A development economist investigates the relationship
-            between girls' secondary-school completion and
-            under-five mortality across 100 countries.
-        </p>
+<!-- QUESTION -->
+<section class="card" id="question-card">
 
-        <p>
-            <strong>Explained variable (Y):</strong>
-            Under-five mortality, measured in deaths
-            per 1,000 live births.
-        </p>
+  <div class="topline">
+    <strong id="counter"></strong>
+    <span id="difficulty" class="badge"></span>
+    <span class="badge points">1 point</span>
+  </div>
 
-        <p>
-            <strong>Explanatory variable (X):</strong>
-            Girls' secondary-school completion rate (%).
-        </p>
+  <div class="progress">
+    <div id="progress-fill"></div>
+  </div>
 
-        <div class="equation">
-            Ŷ = 110 − 0.80X
-        </div>
+  <h2 id="question-title"></h2>
+  <p id="question-text"></p>
 
-        <table>
+  <div id="options"></div>
 
-            <thead>
-                <tr>
-                    <th>Variable</th>
-                    <th>Coefficient</th>
-                    <th>Standard Error</th>
-                </tr>
-            </thead>
+  <details id="hint-box">
+    <summary>Need help? Show a hint</summary>
+    <p id="hint-text"></p>
+  </details>
 
-            <tbody>
-                <tr>
-                    <td>
-                        Girls' secondary-school completion
-                    </td>
-                    <td>−0.8000***</td>
-                    <td>0.1500</td>
-                </tr>
+  <!-- IMMEDIATE FEEDBACK -->
+  <div id="feedback" class="feedback hidden"
+       role="status" aria-live="polite">
+    <h3 id="feedback-title"></h3>
+    <p id="feedback-answer"></p>
+    <p id="feedback-explanation"></p>
+  </div>
 
-                <tr>
-                    <td>Constant</td>
-                    <td>110.0000***</td>
-                    <td>8.0000</td>
-                </tr>
+  <div class="actions">
+    <button id="check-btn" class="primary"
+            onclick="checkAnswer()" disabled>
+      Check Answer
+    </button>
 
-                <tr>
-                    <td>Observations</td>
-                    <td colspan="2">100</td>
-                </tr>
+    <button id="next-btn" class="primary hidden"
+            onclick="nextQuestion()">
+      Next Question →
+    </button>
+  </div>
 
-                <tr>
-                    <td>R²</td>
-                    <td colspan="2">0.6400</td>
-                </tr>
+</section>
 
-                <tr>
-                    <td>F Statistic</td>
-                    <td colspan="2">
-                        28.44*** (df = 1; 98)
-                    </td>
-                </tr>
-            </tbody>
+<!-- FINAL SCORE -->
+<section class="card hidden" id="results">
+  <h2 style="text-align:center">Quiz Completed!</h2>
 
-        </table>
+  <div class="score" id="final-score"></div>
+  <p id="final-message" style="text-align:center"></p>
 
-        <p class="small">
-            *** p &lt; 0.01.
-            Standard errors are reported in the last column.
-        </p>
+  <h3>Review of your answers</h3>
+  <div id="review"></div>
 
-        <p class="small">
-            All results are hypothetical and used for
-            teaching purposes only.
-        </p>
-
-    </div>
-
-
-    <!-- QUESTION SCREEN -->
-
-    <div class="card" id="question-screen">
-
-        <div class="question-header">
-
-            <strong id="question-counter"></strong>
-
-            <span id="difficulty" class="badge"></span>
-
-            <span class="badge points">1 pt</span>
-
-        </div>
-
-        <div class="progress">
-            <div id="progress-fill"
-                 class="progress-fill"></div>
-        </div>
-
-        <h2 id="question-title"></h2>
-
-        <p id="question-text"></p>
-
-        <div id="options-container"></div>
-
-        <details id="hint-box">
-
-            <summary>
-                Need help? Show a hint
-            </summary>
-
-            <p id="hint-text"></p>
-
-        </details>
-
-        <div class="buttons">
-
-            <button id="previous-button"
-                    class="secondary"
-                    onclick="previousQuestion()">
-                ← Previous
-            </button>
-
-            <button id="next-button"
-                    class="primary"
-                    onclick="nextQuestion()">
-                Next Question →
-            </button>
-
-        </div>
-
-        <p class="small">
-            You can change your answers before submitting.
-        </p>
-
-    </div>
-
-
-    <!-- RESULTS SCREEN -->
-
-    <div class="card hidden" id="results-screen">
-
-        <h2 style="text-align:center">
-            Your Results
-        </h2>
-
-        <div id="score-display" class="score"></div>
-
-        <p id="percentage-display"
-           style="text-align:center"></p>
-
-        <div id="review-container"></div>
-
-        <div style="text-align:center;margin-top:25px">
-
-            <button class="primary"
-                    onclick="resetQuiz()">
-                Try Again
-            </button>
-
-        </div>
-
-    </div>
+  <div style="text-align:center;margin-top:25px">
+    <button class="primary" onclick="restartQuiz()">
+      Try Again
+    </button>
+  </div>
+</section>
 
 </div>
 
-
 <script>
-
 const questions = [
-
-{
+  {
     title: "Interpreting the Slope",
     difficulty: "Easy",
-
-    question:
-        "How should the coefficient −0.80 be interpreted?",
-
+    question: "How should the coefficient −0.80 be interpreted?",
     options: [
-        "A one-percentage-point increase in completion is associated with an 80% decrease in mortality.",
-
-        "A one-percentage-point increase in completion is associated with 0.8 fewer deaths per 1,000 live births.",
-
-        "A 1% increase in completion causes mortality to decrease by 0.8%.",
-
-        "A ten-percentage-point increase in completion is associated with 0.8 fewer deaths per 1,000 live births."
+      "A one-percentage-point increase in completion is associated with an 80% decrease in mortality.",
+      "A one-percentage-point increase in completion is associated with 0.8 fewer deaths per 1,000 live births.",
+      "A 1% increase in completion causes mortality to decrease by 0.8%.",
+      "A ten-percentage-point increase in completion is associated with 0.8 fewer deaths per 1,000 live births."
     ],
-
     correct: 1,
-
-    hint:
-        "Think about the units of X and Y. What happens to Y when X increases by one unit?",
-
-    explanation:
-        "The slope is −0.80. A one-percentage-point increase in completion is associated with 0.8 fewer deaths per 1,000 live births. This is an association, not necessarily a causal effect."
-},
-
-{
+    hint: "Think about the units of X and Y. How does predicted Y change when X increases by one unit?",
+    explanation: "The slope is −0.80. A one-percentage-point increase in completion is associated with 0.8 fewer deaths per 1,000 live births. This is not necessarily a causal effect."
+  },
+  {
     title: "Interpreting the Intercept",
     difficulty: "Easy",
-
-    question:
-        "What does the intercept of 110 represent?",
-
+    question: "What does the intercept of 110 represent?",
     options: [
-        "The average mortality rate across countries.",
-
-        "The predicted mortality rate when completion reaches 100%.",
-
-        "The predicted mortality rate when completion is 0%.",
-
-        "The maximum mortality rate in the sample."
+      "The average mortality rate across countries.",
+      "The predicted mortality rate when completion reaches 100%.",
+      "The predicted mortality rate when completion is 0%.",
+      "The maximum mortality rate in the sample."
     ],
-
     correct: 2,
-
-    hint:
-        "Think about the predicted value of Y when X equals zero.",
-
-    explanation:
-        "The intercept is the predicted value of Y when X = 0. Here, the predicted mortality rate is 110 deaths per 1,000 live births."
-},
-
-{
+    hint: "Consider what happens to the explanatory variable term when X equals zero.",
+    explanation: "The intercept is the predicted value of Y when X = 0. The predicted mortality rate would be 110 deaths per 1,000 live births. This may not be meaningful if X = 0 is outside the observed range."
+  },
+  {
     title: "Making Predictions",
     difficulty: "Medium",
-
-    question:
-        "What is the predicted mortality rate when girls' secondary-school completion is 75%?",
-
+    question: "What is the predicted mortality rate when girls' secondary-school completion is 75%?",
     options: [
-        "50 deaths per 1,000 live births",
-
-        "60 deaths per 1,000 live births",
-
-        "75 deaths per 1,000 live births",
-
-        "110 deaths per 1,000 live births"
+      "50 deaths per 1,000 live births",
+      "60 deaths per 1,000 live births",
+      "75 deaths per 1,000 live births",
+      "110 deaths per 1,000 live births"
     ],
-
     correct: 0,
-
-    hint:
-        "Substitute X = 75 into the estimated regression equation.",
-
-    explanation:
-        "Ŷ = 110 − 0.80 × 75 = 50 deaths per 1,000 live births."
-},
-
-{
+    hint: "Substitute X = 75 into the regression equation.",
+    explanation: "Ŷ = 110 − 0.80 × 75 = 50 deaths per 1,000 live births."
+  },
+  {
     title: "Understanding Residuals",
     difficulty: "Medium",
-
-    question:
-        "A country has a completion rate of 50% and an observed mortality rate of 80 deaths per 1,000 live births. What is its residual?",
-
+    question: "A country has a completion rate of 50% and an observed mortality rate of 80 deaths per 1,000 live births. What is its residual?",
     options: [
-        "−10 deaths per 1,000 live births",
-
-        "0 deaths per 1,000 live births",
-
-        "70 deaths per 1,000 live births",
-
-        "+10 deaths per 1,000 live births"
+      "−10 deaths per 1,000 live births",
+      "0 deaths per 1,000 live births",
+      "70 deaths per 1,000 live births",
+      "+10 deaths per 1,000 live births"
     ],
-
     correct: 3,
-
-    hint:
-        "Calculate the predicted value first. The residual is observed minus predicted.",
-
-    explanation:
-        "Predicted mortality = 110 − 0.80 × 50 = 70. The residual is 80 − 70 = +10."
-},
-
-{
+    hint: "First calculate the prediction. Then compare the observed value with the predicted value.",
+    explanation: "Predicted mortality = 110 − 0.80 × 50 = 70. The residual is observed minus predicted: 80 − 70 = +10."
+  },
+  {
     title: "Statistical Inference",
     difficulty: "Medium",
-
-    question:
-        "At the 5% significance level, what can we conclude about the slope coefficient?",
-
+    question: "At the 5% significance level, what can we conclude about the slope coefficient?",
     options: [
-        "We fail to reject H₀: β₁ = 0.",
-
-        "We reject H₀: β₁ = 0 because the slope is statistically different from zero.",
-
-        "Education has been proven to cause lower mortality.",
-
-        "The probability that H₀ is true is below 0.1%."
+      "We fail to reject H₀: β₁ = 0.",
+      "We reject H₀: β₁ = 0 because the slope is statistically different from zero.",
+      "Education has been proven to cause lower mortality.",
+      "The probability that H₀ is true is below 0.1%."
     ],
-
     correct: 1,
-
-    hint:
-        "Look at the significance stars and compare the p-value threshold with α = 0.05.",
-
-    explanation:
-        "The coefficient has three stars, indicating p < 0.01. We reject H₀ at the 5% level. Statistical significance does not establish causality."
-},
-
-{
+    hint: "Compare the significance threshold indicated by the stars with α = 0.05.",
+    explanation: "Three stars indicate p < 0.01, so we reject H₀ at the 5% level. There is evidence of a nonzero linear association, but this does not prove causation."
+  },
+  {
     title: "Model Fit",
     difficulty: "Medium",
-
-    question:
-        "What does R² = 0.64 tell us about the regression?",
-
+    question: "What does R² = 0.225 mean for this regression?",
     options: [
-        "Education reduces child mortality by 64%.",
-
-        "The correlation between education and mortality is +0.64.",
-
-        "The model accounts for 64% of the sample variation in mortality.",
-
-        "The model predicts mortality exactly for 64% of countries."
+      "Education reduces child mortality by 22.5%.",
+      "The correlation between education and mortality is +0.225.",
+      "The fitted model accounts for approximately 22.5% of the sample variation in mortality.",
+      "The model predicts mortality exactly for 22.5% of countries."
     ],
-
     correct: 2,
-
-    hint:
-        "Think about the proportion of variation in Y accounted for by the model.",
-
-    explanation:
-        "R² = 0.64 means that the fitted model accounts for 64% of the sample variation in under-five mortality. In simple regression with an intercept, the correlation is −√0.64 = −0.80."
-}
-
+    hint: "R² compares the variation accounted for by the model with the total sample variation in Y.",
+    explanation: "R² = 0.225 means the fitted model accounts for approximately 22.5% of the sample variation in under-five mortality. It is not a causal effect or the percentage of perfectly predicted observations."
+  }
 ];
 
-
-let currentQuestion = 0;
-
-let answers = Array(questions.length).fill(null);
-
+let current = 0;
+let selected = null;
+let checked = false;
+let score = 0;
+let responses = [];
 
 function renderQuestion() {
+  const q = questions[current];
 
-    const q = questions[currentQuestion];
+  selected = null;
+  checked = false;
 
-    document.getElementById("question-counter")
-        .textContent =
-        `Question ${currentQuestion + 1} of ${questions.length}`;
+  document.getElementById("counter").textContent =
+    `Question ${current + 1} of ${questions.length}`;
 
-    const difficulty =
-        document.getElementById("difficulty");
+  const level = document.getElementById("difficulty");
+  level.textContent = q.difficulty;
+  level.className = "badge " + q.difficulty.toLowerCase();
 
-    difficulty.textContent = q.difficulty;
+  document.getElementById("progress-fill").style.width =
+    `${100 * (current + 1) / questions.length}%`;
 
-    difficulty.className =
-        "badge " + q.difficulty.toLowerCase();
+  document.getElementById("question-title").textContent =
+    q.title;
+  document.getElementById("question-text").textContent =
+    q.question;
 
-    document.getElementById("question-title")
-        .textContent = q.title;
+  const container = document.getElementById("options");
+  container.replaceChildren();
 
-    document.getElementById("question-text")
-        .textContent = q.question;
+  q.options.forEach((text, i) => {
+    const label = document.createElement("label");
+    label.className = "option";
 
-    document.getElementById("progress-fill")
-        .style.width =
-        `${100 * (currentQuestion + 1) / questions.length}%`;
+    const radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = "answer";
+    radio.value = String(i);
 
-    const container =
-        document.getElementById("options-container");
-
-    container.innerHTML = "";
-
-    q.options.forEach((option, index) => {
-
-        const label = document.createElement("label");
-
-        label.className = "option";
-
-        const input = document.createElement("input");
-
-        input.type = "radio";
-
-        input.name = "answer";
-
-        input.value = index;
-
-        input.checked =
-            answers[currentQuestion] === index;
-
-        input.addEventListener("change", () => {
-
-            answers[currentQuestion] = index;
-
-        });
-
-        const span = document.createElement("span");
-
-        span.textContent = option;
-
-        label.appendChild(input);
-
-        label.appendChild(span);
-
-        container.appendChild(label);
-
+    radio.addEventListener("change", () => {
+      if (checked) return;
+      selected = i;
+      document.getElementById("check-btn").disabled = false;
     });
 
-    document.getElementById("hint-text")
-        .textContent = q.hint;
+    const span = document.createElement("span");
+    span.textContent = text;
 
-    document.getElementById("hint-box").open = false;
+    label.append(radio, span);
+    container.append(label);
+  });
 
-    document.getElementById("previous-button")
-        .disabled = currentQuestion === 0;
+  document.getElementById("hint-text").textContent = q.hint;
+  document.getElementById("hint-box").open = false;
 
-    document.getElementById("next-button")
-        .textContent =
-        currentQuestion === questions.length - 1
-            ? "Submit Quiz"
-            : "Next Question →";
-
+  document.getElementById("feedback").classList.add("hidden");
+  document.getElementById("check-btn").classList.remove("hidden");
+  document.getElementById("check-btn").disabled = true;
+  document.getElementById("next-btn").classList.add("hidden");
 }
 
+function checkAnswer() {
+  if (checked || selected === null) return;
 
-function previousQuestion() {
+  checked = true;
+  const q = questions[current];
+  const isCorrect = selected === q.correct;
 
-    if (currentQuestion > 0) {
+  if (isCorrect) score++;
 
-        currentQuestion--;
+  responses.push({
+    question: current,
+    selected: selected,
+    correct: isCorrect
+  });
 
-        renderQuestion();
+  const labels = document.querySelectorAll(".option");
 
-        document.getElementById("question-screen")
-            .scrollIntoView({behavior: "smooth"});
+  labels.forEach((label, i) => {
+    const input = label.querySelector("input");
+    input.disabled = true;
 
+    if (i === q.correct) label.classList.add("correct");
+    if (i === selected && !isCorrect) {
+      label.classList.add("wrong");
     }
+  });
 
+  const feedback = document.getElementById("feedback");
+  feedback.className =
+    "feedback " + (isCorrect ? "good" : "bad");
+
+  document.getElementById("feedback-title").textContent =
+    isCorrect ? "✓ Correct! (1 / 1)" : "✗ Not quite. (0 / 1)";
+
+  document.getElementById("feedback-answer").textContent =
+    "Correct answer: " + q.options[q.correct];
+
+  document.getElementById("feedback-explanation").textContent =
+    q.explanation;
+
+  document.getElementById("check-btn").classList.add("hidden");
+
+  const next = document.getElementById("next-btn");
+  next.classList.remove("hidden");
+  next.textContent =
+    current === questions.length - 1
+      ? "See Final Results →"
+      : "Next Question →";
 }
-
 
 function nextQuestion() {
+  if (!checked) return;
 
-    if (currentQuestion < questions.length - 1) {
-
-        currentQuestion++;
-
-        renderQuestion();
-
-        document.getElementById("question-screen")
-            .scrollIntoView({behavior: "smooth"});
-
-    } else {
-
-        submitQuiz();
-
-    }
-
-}
-
-
-function submitQuiz() {
-
-    let score = 0;
-
-    questions.forEach((q, index) => {
-
-        if (answers[index] === q.correct) {
-            score++;
-        }
-
-    });
-
-    document.getElementById("question-screen")
-        .classList.add("hidden");
-
-    document.getElementById("regression-context")
-        .classList.add("hidden");
-
-    document.getElementById("results-screen")
-        .classList.remove("hidden");
-
-    document.getElementById("score-display")
-        .textContent = `${score} / ${questions.length}`;
-
-    document.getElementById("percentage-display")
-        .textContent =
-        `${Math.round(100 * score / questions.length)}%`;
-
-    const review =
-        document.getElementById("review-container");
-
-    review.innerHTML = "";
-
-    questions.forEach((q, index) => {
-
-        const item = document.createElement("div");
-
-        item.className = "review-item";
-
-        const correct =
-            answers[index] === q.correct;
-
-        const heading = document.createElement("h3");
-
-        heading.textContent =
-            `Question ${index + 1}: ${q.title}`;
-
-        const status = document.createElement("p");
-
-        status.className =
-            correct ? "correct" : "incorrect";
-
-        status.textContent =
-            correct ? "✓ Correct" : "✗ Incorrect";
-
-        const response = document.createElement("p");
-
-        response.textContent =
-            "Your answer: " +
-            (answers[index] === null
-                ? "Not answered"
-                : q.options[answers[index]]);
-
-        const solution = document.createElement("p");
-
-        solution.textContent =
-            "Correct answer: " + q.options[q.correct];
-
-        const explanation = document.createElement("div");
-
-        explanation.className = "feedback";
-
-        explanation.textContent = q.explanation;
-
-        item.appendChild(heading);
-
-        item.appendChild(status);
-
-        item.appendChild(response);
-
-        item.appendChild(solution);
-
-        item.appendChild(explanation);
-
-        review.appendChild(item);
-
-    });
-
-    window.scrollTo({top: 0, behavior: "smooth"});
-
-}
-
-
-function resetQuiz() {
-
-    currentQuestion = 0;
-
-    answers = Array(questions.length).fill(null);
-
-    document.getElementById("results-screen")
-        .classList.add("hidden");
-
-    document.getElementById("question-screen")
-        .classList.remove("hidden");
-
-    document.getElementById("regression-context")
-        .classList.remove("hidden");
-
+  if (current < questions.length - 1) {
+    current++;
     renderQuestion();
-
-    window.scrollTo({top: 0, behavior: "smooth"});
-
+    document.getElementById("question-card")
+      .scrollIntoView({behavior: "smooth", block: "start"});
+  } else {
+    showResults();
+  }
 }
 
+function showResults() {
+  document.getElementById("question-card")
+    .classList.add("hidden");
+  document.getElementById("context")
+    .classList.add("hidden");
+  document.getElementById("results")
+    .classList.remove("hidden");
+
+  document.getElementById("final-score").textContent =
+    `${score} / ${questions.length}`;
+
+  const percentage = Math.round(100 * score / questions.length);
+
+  document.getElementById("final-message").textContent =
+    `${percentage}% — ` +
+    (percentage === 100
+      ? "Excellent work!"
+      : percentage >= 70
+      ? "Good work! Review the explanations below."
+      : "Keep practising! Review the explanations below.");
+
+  const review = document.getElementById("review");
+  review.replaceChildren();
+
+  responses.forEach(r => {
+    const q = questions[r.question];
+    const div = document.createElement("div");
+    div.className = "review";
+
+    const title = document.createElement("h3");
+    title.textContent =
+      `Question ${r.question + 1}: ${q.title}`;
+
+    const status = document.createElement("p");
+    status.style.color = r.correct ? "#23854d" : "#c83e45";
+    status.textContent =
+      r.correct ? "✓ Correct" : "✗ Incorrect";
+
+    const answer = document.createElement("p");
+    answer.textContent =
+      "Your answer: " + q.options[r.selected];
+
+    const solution = document.createElement("p");
+    solution.textContent =
+      "Correct answer: " + q.options[q.correct];
+
+    const explanation = document.createElement("p");
+    explanation.textContent = q.explanation;
+
+    div.append(title, status, answer, solution, explanation);
+    review.append(div);
+  });
+
+  window.scrollTo({top: 0, behavior: "smooth"});
+}
+
+function restartQuiz() {
+  current = 0;
+  selected = null;
+  checked = false;
+  score = 0;
+  responses = [];
+
+  document.getElementById("results")
+    .classList.add("hidden");
+  document.getElementById("question-card")
+    .classList.remove("hidden");
+  document.getElementById("context")
+    .classList.remove("hidden");
+
+  renderQuestion();
+  window.scrollTo({top: 0, behavior: "smooth"});
+}
 
 renderQuestion();
-
 </script>
 
 </body>
